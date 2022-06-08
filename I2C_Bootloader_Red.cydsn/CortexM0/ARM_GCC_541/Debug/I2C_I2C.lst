@@ -1,0 +1,1319 @@
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"I2C_I2C.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.I2C_I2CInit,"ax",%progbits
+  20              		.align	1
+  21              		.global	I2C_I2CInit
+  22              		.code	16
+  23              		.thumb_func
+  24              		.type	I2C_I2CInit, %function
+  25              	I2C_I2CInit:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC4\\I2C_I2C.c"
+   1:Generated_Source\PSoC4/I2C_I2C.c **** /***************************************************************************//**
+   2:Generated_Source\PSoC4/I2C_I2C.c **** * \file I2C_I2C.c
+   3:Generated_Source\PSoC4/I2C_I2C.c **** * \version 4.0
+   4:Generated_Source\PSoC4/I2C_I2C.c **** *
+   5:Generated_Source\PSoC4/I2C_I2C.c **** * \brief
+   6:Generated_Source\PSoC4/I2C_I2C.c **** *  This file provides the source code to the API for the SCB Component in
+   7:Generated_Source\PSoC4/I2C_I2C.c **** *  I2C mode.
+   8:Generated_Source\PSoC4/I2C_I2C.c **** *
+   9:Generated_Source\PSoC4/I2C_I2C.c **** * Note:
+  10:Generated_Source\PSoC4/I2C_I2C.c **** *
+  11:Generated_Source\PSoC4/I2C_I2C.c **** *******************************************************************************
+  12:Generated_Source\PSoC4/I2C_I2C.c **** * \copyright
+  13:Generated_Source\PSoC4/I2C_I2C.c **** * Copyright 2013-2017, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC4/I2C_I2C.c **** * You may use this file only in accordance with the license, terms, conditions,
+  15:Generated_Source\PSoC4/I2C_I2C.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  16:Generated_Source\PSoC4/I2C_I2C.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC4/I2C_I2C.c **** *******************************************************************************/
+  18:Generated_Source\PSoC4/I2C_I2C.c **** 
+  19:Generated_Source\PSoC4/I2C_I2C.c **** #include "I2C_PVT.h"
+  20:Generated_Source\PSoC4/I2C_I2C.c **** #include "I2C_I2C_PVT.h"
+  21:Generated_Source\PSoC4/I2C_I2C.c **** 
+  22:Generated_Source\PSoC4/I2C_I2C.c **** 
+  23:Generated_Source\PSoC4/I2C_I2C.c **** /***************************************
+  24:Generated_Source\PSoC4/I2C_I2C.c **** *      I2C Private Vars
+  25:Generated_Source\PSoC4/I2C_I2C.c **** ***************************************/
+  26:Generated_Source\PSoC4/I2C_I2C.c **** 
+  27:Generated_Source\PSoC4/I2C_I2C.c **** volatile uint8 I2C_state;  /* Current state of I2C FSM */
+  28:Generated_Source\PSoC4/I2C_I2C.c **** 
+  29:Generated_Source\PSoC4/I2C_I2C.c **** #if(I2C_SCB_MODE_UNCONFIG_CONST_CFG)
+  30:Generated_Source\PSoC4/I2C_I2C.c **** 
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 2
+
+
+  31:Generated_Source\PSoC4/I2C_I2C.c ****     /***************************************
+  32:Generated_Source\PSoC4/I2C_I2C.c ****     *  Configuration Structure Initialization
+  33:Generated_Source\PSoC4/I2C_I2C.c ****     ***************************************/
+  34:Generated_Source\PSoC4/I2C_I2C.c **** 
+  35:Generated_Source\PSoC4/I2C_I2C.c ****     /* Constant configuration of I2C */
+  36:Generated_Source\PSoC4/I2C_I2C.c ****     const I2C_I2C_INIT_STRUCT I2C_configI2C =
+  37:Generated_Source\PSoC4/I2C_I2C.c ****     {
+  38:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_MODE,
+  39:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_OVS_FACTOR_LOW,
+  40:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_OVS_FACTOR_HIGH,
+  41:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_MEDIAN_FILTER_ENABLE,
+  42:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_SLAVE_ADDRESS,
+  43:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_SLAVE_ADDRESS_MASK,
+  44:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_ACCEPT_ADDRESS,
+  45:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_WAKE_ENABLE,
+  46:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_BYTE_MODE_ENABLE,
+  47:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_DATA_RATE,
+  48:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_ACCEPT_GENERAL_CALL,
+  49:Generated_Source\PSoC4/I2C_I2C.c ****     };
+  50:Generated_Source\PSoC4/I2C_I2C.c **** 
+  51:Generated_Source\PSoC4/I2C_I2C.c ****     /*******************************************************************************
+  52:Generated_Source\PSoC4/I2C_I2C.c ****     * Function Name: I2C_I2CInit
+  53:Generated_Source\PSoC4/I2C_I2C.c ****     ****************************************************************************//**
+  54:Generated_Source\PSoC4/I2C_I2C.c ****     *
+  55:Generated_Source\PSoC4/I2C_I2C.c ****     *
+  56:Generated_Source\PSoC4/I2C_I2C.c ****     *  Configures the I2C for I2C operation.
+  57:Generated_Source\PSoC4/I2C_I2C.c ****     *
+  58:Generated_Source\PSoC4/I2C_I2C.c ****     *  This function is intended specifically to be used when the I2C 
+  59:Generated_Source\PSoC4/I2C_I2C.c ****     *  configuration is set to “Unconfigured I2C” in the customizer. 
+  60:Generated_Source\PSoC4/I2C_I2C.c ****     *  After initializing the I2C in I2C mode using this function, 
+  61:Generated_Source\PSoC4/I2C_I2C.c ****     *  the component can be enabled using the I2C_Start() or 
+  62:Generated_Source\PSoC4/I2C_I2C.c ****     * I2C_Enable() function.
+  63:Generated_Source\PSoC4/I2C_I2C.c ****     *  This function uses a pointer to a structure that provides the configuration 
+  64:Generated_Source\PSoC4/I2C_I2C.c ****     *  settings. This structure contains the same information that would otherwise 
+  65:Generated_Source\PSoC4/I2C_I2C.c ****     *  be provided by the customizer settings.
+  66:Generated_Source\PSoC4/I2C_I2C.c ****     *
+  67:Generated_Source\PSoC4/I2C_I2C.c ****     *  \param config: pointer to a structure that contains the following list of 
+  68:Generated_Source\PSoC4/I2C_I2C.c ****     *   fields. These fields match the selections available in the customizer. 
+  69:Generated_Source\PSoC4/I2C_I2C.c ****     *   Refer to the customizer for further description of the settings.
+  70:Generated_Source\PSoC4/I2C_I2C.c ****     *
+  71:Generated_Source\PSoC4/I2C_I2C.c ****     *******************************************************************************/
+  72:Generated_Source\PSoC4/I2C_I2C.c ****     void I2C_I2CInit(const I2C_I2C_INIT_STRUCT *config)
+  73:Generated_Source\PSoC4/I2C_I2C.c ****     {
+  74:Generated_Source\PSoC4/I2C_I2C.c ****         uint32 medianFilter;
+  75:Generated_Source\PSoC4/I2C_I2C.c ****         uint32 locEnableWake;
+  76:Generated_Source\PSoC4/I2C_I2C.c **** 
+  77:Generated_Source\PSoC4/I2C_I2C.c ****         if(NULL == config)
+  78:Generated_Source\PSoC4/I2C_I2C.c ****         {
+  79:Generated_Source\PSoC4/I2C_I2C.c ****             CYASSERT(0u != 0u); /* Halt execution due to bad function parameter */
+  80:Generated_Source\PSoC4/I2C_I2C.c ****         }
+  81:Generated_Source\PSoC4/I2C_I2C.c ****         else
+  82:Generated_Source\PSoC4/I2C_I2C.c ****         {
+  83:Generated_Source\PSoC4/I2C_I2C.c ****             /* Configure pins */
+  84:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_SetPins(I2C_SCB_MODE_I2C, I2C_DUMMY_PARAM,
+  85:Generated_Source\PSoC4/I2C_I2C.c ****                                      I2C_DUMMY_PARAM);
+  86:Generated_Source\PSoC4/I2C_I2C.c **** 
+  87:Generated_Source\PSoC4/I2C_I2C.c ****             /* Store internal configuration */
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 3
+
+
+  88:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_scbMode       = (uint8) I2C_SCB_MODE_I2C;
+  89:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_scbEnableWake = (uint8) config->enableWake;
+  90:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_scbEnableIntr = (uint8) I2C_SCB_IRQ_INTERNAL;
+  91:Generated_Source\PSoC4/I2C_I2C.c **** 
+  92:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_mode          = (uint8) config->mode;
+  93:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_acceptAddr    = (uint8) config->acceptAddr;
+  94:Generated_Source\PSoC4/I2C_I2C.c **** 
+  95:Generated_Source\PSoC4/I2C_I2C.c ****         #if (I2C_CY_SCBIP_V0)
+  96:Generated_Source\PSoC4/I2C_I2C.c ****             /* Adjust SDA filter settings. Ticket ID#150521 */
+  97:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_SET_I2C_CFG_SDA_FILT_TRIM(I2C_EC_AM_I2C_CFG_SDA_FILT_TRIM);
+  98:Generated_Source\PSoC4/I2C_I2C.c ****         #endif /* (I2C_CY_SCBIP_V0) */
+  99:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 100:Generated_Source\PSoC4/I2C_I2C.c ****             /* Adjust AF and DF filter settings. Ticket ID#176179 */
+ 101:Generated_Source\PSoC4/I2C_I2C.c ****             if (((I2C_I2C_MODE_SLAVE != config->mode) &&
+ 102:Generated_Source\PSoC4/I2C_I2C.c ****                  (config->dataRate <= I2C_I2C_DATA_RATE_FS_MODE_MAX)) ||
+ 103:Generated_Source\PSoC4/I2C_I2C.c ****                  (I2C_I2C_MODE_SLAVE == config->mode))
+ 104:Generated_Source\PSoC4/I2C_I2C.c ****             {
+ 105:Generated_Source\PSoC4/I2C_I2C.c ****                 /* AF = 1, DF = 0 */
+ 106:Generated_Source\PSoC4/I2C_I2C.c ****                 I2C_I2C_CFG_ANALOG_FITER_ENABLE;
+ 107:Generated_Source\PSoC4/I2C_I2C.c ****                 medianFilter = I2C_DIGITAL_FILTER_DISABLE;
+ 108:Generated_Source\PSoC4/I2C_I2C.c ****             }
+ 109:Generated_Source\PSoC4/I2C_I2C.c ****             else
+ 110:Generated_Source\PSoC4/I2C_I2C.c ****             {
+ 111:Generated_Source\PSoC4/I2C_I2C.c ****                 /* AF = 0, DF = 1 */
+ 112:Generated_Source\PSoC4/I2C_I2C.c ****                 I2C_I2C_CFG_ANALOG_FITER_DISABLE;
+ 113:Generated_Source\PSoC4/I2C_I2C.c ****                 medianFilter = I2C_DIGITAL_FILTER_ENABLE;
+ 114:Generated_Source\PSoC4/I2C_I2C.c ****             }
+ 115:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 116:Generated_Source\PSoC4/I2C_I2C.c ****         #if (!I2C_CY_SCBIP_V0)
+ 117:Generated_Source\PSoC4/I2C_I2C.c ****             locEnableWake = (I2C_I2C_MULTI_MASTER_SLAVE) ? (0u) : (config->enableWake);
+ 118:Generated_Source\PSoC4/I2C_I2C.c ****         #else
+ 119:Generated_Source\PSoC4/I2C_I2C.c ****             locEnableWake = config->enableWake;
+ 120:Generated_Source\PSoC4/I2C_I2C.c ****         #endif /* (!I2C_CY_SCBIP_V0) */
+ 121:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 122:Generated_Source\PSoC4/I2C_I2C.c ****             /* Configure I2C interface */
+ 123:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_CTRL_REG     = I2C_GET_CTRL_BYTE_MODE  (config->enableByteMode) |
+ 124:Generated_Source\PSoC4/I2C_I2C.c ****                                             I2C_GET_CTRL_ADDR_ACCEPT(config->acceptAddr)     |
+ 125:Generated_Source\PSoC4/I2C_I2C.c ****                                             I2C_GET_CTRL_EC_AM_MODE (locEnableWake);
+ 126:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 127:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_I2C_CTRL_REG = I2C_GET_I2C_CTRL_HIGH_PHASE_OVS(config->oversampleHigh) |
+ 128:Generated_Source\PSoC4/I2C_I2C.c ****                     I2C_GET_I2C_CTRL_LOW_PHASE_OVS (config->oversampleLow)                         
+ 129:Generated_Source\PSoC4/I2C_I2C.c ****                     I2C_GET_I2C_CTRL_S_GENERAL_IGNORE((uint32)(0u == config->acceptGeneralAddr))   
+ 130:Generated_Source\PSoC4/I2C_I2C.c ****                     I2C_GET_I2C_CTRL_SL_MSTR_MODE  (config->mode);
+ 131:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 132:Generated_Source\PSoC4/I2C_I2C.c ****             /* Configure RX direction */
+ 133:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_RX_CTRL_REG      = I2C_GET_RX_CTRL_MEDIAN(medianFilter) |
+ 134:Generated_Source\PSoC4/I2C_I2C.c ****                                                 I2C_I2C_RX_CTRL;
+ 135:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_RX_FIFO_CTRL_REG = I2C_CLEAR_REG;
+ 136:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 137:Generated_Source\PSoC4/I2C_I2C.c ****             /* Set default address and mask */
+ 138:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_RX_MATCH_REG    = ((I2C_I2C_SLAVE) ?
+ 139:Generated_Source\PSoC4/I2C_I2C.c ****                                                 (I2C_GET_I2C_8BIT_ADDRESS(config->slaveAddr) |
+ 140:Generated_Source\PSoC4/I2C_I2C.c ****                                                  I2C_GET_RX_MATCH_MASK(config->slaveAddrMask)) :
+ 141:Generated_Source\PSoC4/I2C_I2C.c ****                                                 (I2C_CLEAR_REG));
+ 142:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 143:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 144:Generated_Source\PSoC4/I2C_I2C.c ****             /* Configure TX direction */
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 4
+
+
+ 145:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_TX_CTRL_REG      = I2C_I2C_TX_CTRL;
+ 146:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_TX_FIFO_CTRL_REG = I2C_CLEAR_REG;
+ 147:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 148:Generated_Source\PSoC4/I2C_I2C.c ****             /* Configure interrupt with I2C handler but do not enable it */
+ 149:Generated_Source\PSoC4/I2C_I2C.c ****             CyIntDisable    (I2C_ISR_NUMBER);
+ 150:Generated_Source\PSoC4/I2C_I2C.c ****             CyIntSetPriority(I2C_ISR_NUMBER, I2C_ISR_PRIORITY);
+ 151:Generated_Source\PSoC4/I2C_I2C.c ****             (void) CyIntSetVector(I2C_ISR_NUMBER, &I2C_I2C_ISR);
+ 152:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 153:Generated_Source\PSoC4/I2C_I2C.c ****             /* Configure interrupt sources */
+ 154:Generated_Source\PSoC4/I2C_I2C.c ****         #if(!I2C_CY_SCBIP_V1)
+ 155:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_INTR_SPI_EC_MASK_REG = I2C_NO_INTR_SOURCES;
+ 156:Generated_Source\PSoC4/I2C_I2C.c ****         #endif /* (!I2C_CY_SCBIP_V1) */
+ 157:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 158:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_INTR_I2C_EC_MASK_REG = I2C_NO_INTR_SOURCES;
+ 159:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_INTR_RX_MASK_REG     = I2C_NO_INTR_SOURCES;
+ 160:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_INTR_TX_MASK_REG     = I2C_NO_INTR_SOURCES;
+ 161:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 162:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_INTR_SLAVE_MASK_REG  = ((I2C_I2C_SLAVE) ?
+ 163:Generated_Source\PSoC4/I2C_I2C.c ****                             (I2C_GET_INTR_SLAVE_I2C_GENERAL(config->acceptGeneralAddr) |
+ 164:Generated_Source\PSoC4/I2C_I2C.c ****                              I2C_I2C_INTR_SLAVE_MASK) : (I2C_CLEAR_REG));
+ 165:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 166:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_INTR_MASTER_MASK_REG = I2C_NO_INTR_SOURCES;
+ 167:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 168:Generated_Source\PSoC4/I2C_I2C.c ****             /* Configure global variables */
+ 169:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_state = I2C_I2C_FSM_IDLE;
+ 170:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 171:Generated_Source\PSoC4/I2C_I2C.c ****             /* Internal slave variables */
+ 172:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_slStatus        = 0u;
+ 173:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_slRdBufIndex    = 0u;
+ 174:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_slWrBufIndex    = 0u;
+ 175:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_slOverFlowCount = 0u;
+ 176:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 177:Generated_Source\PSoC4/I2C_I2C.c ****             /* Internal master variables */
+ 178:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_mstrStatus     = 0u;
+ 179:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_mstrRdBufIndex = 0u;
+ 180:Generated_Source\PSoC4/I2C_I2C.c ****             I2C_mstrWrBufIndex = 0u;
+ 181:Generated_Source\PSoC4/I2C_I2C.c ****         }
+ 182:Generated_Source\PSoC4/I2C_I2C.c ****     }
+ 183:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 184:Generated_Source\PSoC4/I2C_I2C.c **** #else
+ 185:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 186:Generated_Source\PSoC4/I2C_I2C.c ****     /*******************************************************************************
+ 187:Generated_Source\PSoC4/I2C_I2C.c ****     * Function Name: I2C_I2CInit
+ 188:Generated_Source\PSoC4/I2C_I2C.c ****     ****************************************************************************//**
+ 189:Generated_Source\PSoC4/I2C_I2C.c ****     *
+ 190:Generated_Source\PSoC4/I2C_I2C.c ****     *  Configures the SCB for the I2C operation.
+ 191:Generated_Source\PSoC4/I2C_I2C.c ****     *
+ 192:Generated_Source\PSoC4/I2C_I2C.c ****     *******************************************************************************/
+ 193:Generated_Source\PSoC4/I2C_I2C.c ****     void I2C_I2CInit(void)
+ 194:Generated_Source\PSoC4/I2C_I2C.c ****     {
+  28              		.loc 1 194 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195:Generated_Source\PSoC4/I2C_I2C.c ****     #if(I2C_CY_SCBIP_V0)
+ 196:Generated_Source\PSoC4/I2C_I2C.c ****         /* Adjust SDA filter settings. Ticket ID#150521 */
+ 197:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_SET_I2C_CFG_SDA_FILT_TRIM(I2C_EC_AM_I2C_CFG_SDA_FILT_TRIM);
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 5
+
+
+  32              		.loc 1 197 0
+  33 0000 0C21     		movs	r1, #12
+ 194:Generated_Source\PSoC4/I2C_I2C.c ****     #if(I2C_CY_SCBIP_V0)
+  34              		.loc 1 194 0
+  35 0002 10B5     		push	{r4, lr}
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 4, -8
+  38              		.cfi_offset 14, -4
+ 198:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_CY_SCBIP_V0) */
+ 199:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 200:Generated_Source\PSoC4/I2C_I2C.c ****         /* Adjust AF and DF filter settings. Ticket ID#176179 */
+ 201:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_CFG_ANALOG_FITER_ENABLE_ADJ;
+ 202:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 203:Generated_Source\PSoC4/I2C_I2C.c ****         /* Configure I2C interface */
+ 204:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_CTRL_REG     = I2C_I2C_DEFAULT_CTRL;
+  39              		.loc 1 204 0
+  40 0004 0024     		movs	r4, #0
+ 197:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_CY_SCBIP_V0) */
+  41              		.loc 1 197 0
+  42 0006 1D4A     		ldr	r2, .L2
+ 205:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_CTRL_REG = I2C_I2C_DEFAULT_I2C_CTRL;
+ 206:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 207:Generated_Source\PSoC4/I2C_I2C.c ****         /* Configure RX direction */
+ 208:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_RX_CTRL_REG      = I2C_I2C_DEFAULT_RX_CTRL;
+ 209:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_RX_FIFO_CTRL_REG = I2C_I2C_DEFAULT_RX_FIFO_CTRL;
+ 210:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 211:Generated_Source\PSoC4/I2C_I2C.c ****         /* Set default address and mask */
+ 212:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_RX_MATCH_REG     = I2C_I2C_DEFAULT_RX_MATCH;
+ 213:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 214:Generated_Source\PSoC4/I2C_I2C.c ****         /* Configure TX direction */
+ 215:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_TX_CTRL_REG      = I2C_I2C_DEFAULT_TX_CTRL;
+ 216:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_TX_FIFO_CTRL_REG = I2C_I2C_DEFAULT_TX_FIFO_CTRL;
+ 217:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 218:Generated_Source\PSoC4/I2C_I2C.c ****         /* Configure interrupt with I2C handler but do not enable it */
+ 219:Generated_Source\PSoC4/I2C_I2C.c ****         CyIntDisable    (I2C_ISR_NUMBER);
+  43              		.loc 1 219 0
+  44 0008 0B20     		movs	r0, #11
+ 197:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_CY_SCBIP_V0) */
+  45              		.loc 1 197 0
+  46 000a 1368     		ldr	r3, [r2]
+ 220:Generated_Source\PSoC4/I2C_I2C.c ****         CyIntSetPriority(I2C_ISR_NUMBER, I2C_ISR_PRIORITY);
+ 221:Generated_Source\PSoC4/I2C_I2C.c ****     #if(!I2C_I2C_EXTERN_INTR_HANDLER)
+ 222:Generated_Source\PSoC4/I2C_I2C.c ****         (void) CyIntSetVector(I2C_ISR_NUMBER, &I2C_I2C_ISR);
+ 223:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_I2C_EXTERN_INTR_HANDLER) */
+ 224:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 225:Generated_Source\PSoC4/I2C_I2C.c ****         /* Configure interrupt sources */
+ 226:Generated_Source\PSoC4/I2C_I2C.c ****     #if(!I2C_CY_SCBIP_V1)
+ 227:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_SPI_EC_MASK_REG = I2C_I2C_DEFAULT_INTR_SPI_EC_MASK;
+ 228:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (!I2C_CY_SCBIP_V1) */
+ 229:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 230:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_I2C_EC_MASK_REG = I2C_I2C_DEFAULT_INTR_I2C_EC_MASK;
+ 231:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_SLAVE_MASK_REG  = I2C_I2C_DEFAULT_INTR_SLAVE_MASK;
+ 232:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_MASTER_MASK_REG = I2C_I2C_DEFAULT_INTR_MASTER_MASK;
+ 233:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_RX_MASK_REG     = I2C_I2C_DEFAULT_INTR_RX_MASK;
+ 234:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_TX_MASK_REG     = I2C_I2C_DEFAULT_INTR_TX_MASK;
+ 235:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 236:Generated_Source\PSoC4/I2C_I2C.c ****         /* Configure global variables */
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 6
+
+
+ 237:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_state = I2C_I2C_FSM_IDLE;
+ 238:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 239:Generated_Source\PSoC4/I2C_I2C.c ****     #if(I2C_I2C_SLAVE)
+ 240:Generated_Source\PSoC4/I2C_I2C.c ****         /* Internal slave variable */
+ 241:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_slStatus        = 0u;
+ 242:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_slRdBufIndex    = 0u;
+ 243:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_slWrBufIndex    = 0u;
+ 244:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_slOverFlowCount = 0u;
+ 245:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_I2C_SLAVE) */
+ 246:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 247:Generated_Source\PSoC4/I2C_I2C.c ****     #if(I2C_I2C_MASTER)
+ 248:Generated_Source\PSoC4/I2C_I2C.c ****     /* Internal master variable */
+ 249:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_mstrStatus     = 0u;
+ 250:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_mstrRdBufIndex = 0u;
+ 251:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_mstrWrBufIndex = 0u;
+ 252:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_I2C_MASTER) */
+ 253:Generated_Source\PSoC4/I2C_I2C.c ****     }
+  47              		.loc 1 253 0
+  48              		@ sp needed
+ 197:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_CY_SCBIP_V0) */
+  49              		.loc 1 197 0
+  50 000c 0B43     		orrs	r3, r1
+  51 000e 1360     		str	r3, [r2]
+ 204:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_CTRL_REG = I2C_I2C_DEFAULT_I2C_CTRL;
+  52              		.loc 1 204 0
+  53 0010 1B4B     		ldr	r3, .L2+4
+ 205:Generated_Source\PSoC4/I2C_I2C.c **** 
+  54              		.loc 1 205 0
+  55 0012 1C4A     		ldr	r2, .L2+8
+ 204:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_I2C_CTRL_REG = I2C_I2C_DEFAULT_I2C_CTRL;
+  56              		.loc 1 204 0
+  57 0014 1C60     		str	r4, [r3]
+ 205:Generated_Source\PSoC4/I2C_I2C.c **** 
+  58              		.loc 1 205 0
+  59 0016 1C4B     		ldr	r3, .L2+12
+ 212:Generated_Source\PSoC4/I2C_I2C.c **** 
+  60              		.loc 1 212 0
+  61 0018 1C49     		ldr	r1, .L2+16
+ 205:Generated_Source\PSoC4/I2C_I2C.c **** 
+  62              		.loc 1 205 0
+  63 001a 1A60     		str	r2, [r3]
+ 208:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_RX_FIFO_CTRL_REG = I2C_I2C_DEFAULT_RX_FIFO_CTRL;
+  64              		.loc 1 208 0
+  65 001c 1C4B     		ldr	r3, .L2+20
+  66 001e 1D4A     		ldr	r2, .L2+24
+  67 0020 1360     		str	r3, [r2]
+ 209:Generated_Source\PSoC4/I2C_I2C.c **** 
+  68              		.loc 1 209 0
+  69 0022 1D4A     		ldr	r2, .L2+28
+  70 0024 1460     		str	r4, [r2]
+ 212:Generated_Source\PSoC4/I2C_I2C.c **** 
+  71              		.loc 1 212 0
+  72 0026 1D4A     		ldr	r2, .L2+32
+  73 0028 1160     		str	r1, [r2]
+ 215:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_TX_FIFO_CTRL_REG = I2C_I2C_DEFAULT_TX_FIFO_CTRL;
+  74              		.loc 1 215 0
+  75 002a 1D4A     		ldr	r2, .L2+36
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 7
+
+
+  76 002c 1360     		str	r3, [r2]
+ 216:Generated_Source\PSoC4/I2C_I2C.c **** 
+  77              		.loc 1 216 0
+  78 002e 1D4B     		ldr	r3, .L2+40
+  79 0030 1C60     		str	r4, [r3]
+ 219:Generated_Source\PSoC4/I2C_I2C.c ****         CyIntSetPriority(I2C_ISR_NUMBER, I2C_ISR_PRIORITY);
+  80              		.loc 1 219 0
+  81 0032 FFF7FEFF 		bl	CyIntDisable
+  82              	.LVL0:
+ 220:Generated_Source\PSoC4/I2C_I2C.c ****     #if(!I2C_I2C_EXTERN_INTR_HANDLER)
+  83              		.loc 1 220 0
+  84 0036 0321     		movs	r1, #3
+  85 0038 0B20     		movs	r0, #11
+  86 003a FFF7FEFF 		bl	CyIntSetPriority
+  87              	.LVL1:
+ 222:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_I2C_EXTERN_INTR_HANDLER) */
+  88              		.loc 1 222 0
+  89 003e 1A49     		ldr	r1, .L2+44
+  90 0040 0B20     		movs	r0, #11
+  91 0042 FFF7FEFF 		bl	CyIntSetVector
+  92              	.LVL2:
+ 231:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_MASTER_MASK_REG = I2C_I2C_DEFAULT_INTR_MASTER_MASK;
+  93              		.loc 1 231 0
+  94 0046 4C22     		movs	r2, #76
+ 227:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (!I2C_CY_SCBIP_V1) */
+  95              		.loc 1 227 0
+  96 0048 184B     		ldr	r3, .L2+48
+ 231:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_MASTER_MASK_REG = I2C_I2C_DEFAULT_INTR_MASTER_MASK;
+  97              		.loc 1 231 0
+  98 004a FF32     		adds	r2, r2, #255
+ 227:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (!I2C_CY_SCBIP_V1) */
+  99              		.loc 1 227 0
+ 100 004c 1C60     		str	r4, [r3]
+ 230:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_SLAVE_MASK_REG  = I2C_I2C_DEFAULT_INTR_SLAVE_MASK;
+ 101              		.loc 1 230 0
+ 102 004e 184B     		ldr	r3, .L2+52
+ 103 0050 1C60     		str	r4, [r3]
+ 231:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_MASTER_MASK_REG = I2C_I2C_DEFAULT_INTR_MASTER_MASK;
+ 104              		.loc 1 231 0
+ 105 0052 184B     		ldr	r3, .L2+56
+ 106 0054 1A60     		str	r2, [r3]
+ 232:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_RX_MASK_REG     = I2C_I2C_DEFAULT_INTR_RX_MASK;
+ 107              		.loc 1 232 0
+ 108 0056 184B     		ldr	r3, .L2+60
+ 237:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 109              		.loc 1 237 0
+ 110 0058 3C3A     		subs	r2, r2, #60
+ 232:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_RX_MASK_REG     = I2C_I2C_DEFAULT_INTR_RX_MASK;
+ 111              		.loc 1 232 0
+ 112 005a 1C60     		str	r4, [r3]
+ 233:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_TX_MASK_REG     = I2C_I2C_DEFAULT_INTR_TX_MASK;
+ 113              		.loc 1 233 0
+ 114 005c 174B     		ldr	r3, .L2+64
+ 237:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 115              		.loc 1 237 0
+ 116 005e FF3A     		subs	r2, r2, #255
+ 233:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_INTR_TX_MASK_REG     = I2C_I2C_DEFAULT_INTR_TX_MASK;
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 8
+
+
+ 117              		.loc 1 233 0
+ 118 0060 1C60     		str	r4, [r3]
+ 234:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 119              		.loc 1 234 0
+ 120 0062 174B     		ldr	r3, .L2+68
+ 121 0064 1C60     		str	r4, [r3]
+ 237:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 122              		.loc 1 237 0
+ 123 0066 174B     		ldr	r3, .L2+72
+ 124 0068 1A70     		strb	r2, [r3]
+ 241:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_slRdBufIndex    = 0u;
+ 125              		.loc 1 241 0
+ 126 006a 174B     		ldr	r3, .L2+76
+ 127 006c 1C70     		strb	r4, [r3]
+ 242:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_slWrBufIndex    = 0u;
+ 128              		.loc 1 242 0
+ 129 006e 174B     		ldr	r3, .L2+80
+ 130 0070 1C60     		str	r4, [r3]
+ 243:Generated_Source\PSoC4/I2C_I2C.c ****         I2C_slOverFlowCount = 0u;
+ 131              		.loc 1 243 0
+ 132 0072 174B     		ldr	r3, .L2+84
+ 133 0074 1C60     		str	r4, [r3]
+ 244:Generated_Source\PSoC4/I2C_I2C.c ****     #endif /* (I2C_I2C_SLAVE) */
+ 134              		.loc 1 244 0
+ 135 0076 174B     		ldr	r3, .L2+88
+ 136 0078 1C70     		strb	r4, [r3]
+ 137              		.loc 1 253 0
+ 138 007a 10BD     		pop	{r4, pc}
+ 139              	.L3:
+ 140              		.align	2
+ 141              	.L2:
+ 142 007c 70000740 		.word	1074200688
+ 143 0080 00000740 		.word	1074200576
+ 144 0084 77080040 		.word	1073743991
+ 145 0088 60000740 		.word	1074200672
+ 146 008c 1000FE00 		.word	16646160
+ 147 0090 07010080 		.word	-2147483385
+ 148 0094 00030740 		.word	1074201344
+ 149 0098 04030740 		.word	1074201348
+ 150 009c 10030740 		.word	1074201360
+ 151 00a0 00020740 		.word	1074201088
+ 152 00a4 04020740 		.word	1074201092
+ 153 00a8 00000000 		.word	I2C_I2C_ISR
+ 154 00ac C80E0740 		.word	1074204360
+ 155 00b0 880E0740 		.word	1074204296
+ 156 00b4 480F0740 		.word	1074204488
+ 157 00b8 080F0740 		.word	1074204424
+ 158 00bc C80F0740 		.word	1074204616
+ 159 00c0 880F0740 		.word	1074204552
+ 160 00c4 00000000 		.word	I2C_state
+ 161 00c8 00000000 		.word	I2C_slStatus
+ 162 00cc 00000000 		.word	I2C_slRdBufIndex
+ 163 00d0 00000000 		.word	I2C_slWrBufIndex
+ 164 00d4 00000000 		.word	I2C_slOverFlowCount
+ 165              		.cfi_endproc
+ 166              	.LFE0:
+ 167              		.size	I2C_I2CInit, .-I2C_I2CInit
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 9
+
+
+ 168              		.section	.text.I2C_I2CStop,"ax",%progbits
+ 169              		.align	1
+ 170              		.global	I2C_I2CStop
+ 171              		.code	16
+ 172              		.thumb_func
+ 173              		.type	I2C_I2CStop, %function
+ 174              	I2C_I2CStop:
+ 175              	.LFB1:
+ 254:Generated_Source\PSoC4/I2C_I2C.c **** #endif /* (I2C_SCB_MODE_UNCONFIG_CONST_CFG) */
+ 255:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 256:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 257:Generated_Source\PSoC4/I2C_I2C.c **** /*******************************************************************************
+ 258:Generated_Source\PSoC4/I2C_I2C.c **** * Function Name: I2C_I2CStop
+ 259:Generated_Source\PSoC4/I2C_I2C.c **** ****************************************************************************//**
+ 260:Generated_Source\PSoC4/I2C_I2C.c **** *
+ 261:Generated_Source\PSoC4/I2C_I2C.c **** *  Resets the I2C FSM into the default state.
+ 262:Generated_Source\PSoC4/I2C_I2C.c **** *
+ 263:Generated_Source\PSoC4/I2C_I2C.c **** *******************************************************************************/
+ 264:Generated_Source\PSoC4/I2C_I2C.c **** void I2C_I2CStop(void)
+ 265:Generated_Source\PSoC4/I2C_I2C.c **** {
+ 176              		.loc 1 265 0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180              		@ link register save eliminated.
+ 266:Generated_Source\PSoC4/I2C_I2C.c ****     /* Clear command registers because they keep assigned value after IP block was disabled */
+ 267:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_I2C_MASTER_CMD_REG = 0u;
+ 181              		.loc 1 267 0
+ 182 0000 0023     		movs	r3, #0
+ 183 0002 044A     		ldr	r2, .L5
+ 268:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_I2C_SLAVE_CMD_REG  = 0u;
+ 269:Generated_Source\PSoC4/I2C_I2C.c ****     
+ 270:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_state = I2C_I2C_FSM_IDLE;
+ 271:Generated_Source\PSoC4/I2C_I2C.c **** }
+ 184              		.loc 1 271 0
+ 185              		@ sp needed
+ 267:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_I2C_SLAVE_CMD_REG  = 0u;
+ 186              		.loc 1 267 0
+ 187 0004 1360     		str	r3, [r2]
+ 268:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_I2C_SLAVE_CMD_REG  = 0u;
+ 188              		.loc 1 268 0
+ 189 0006 044A     		ldr	r2, .L5+4
+ 190 0008 1360     		str	r3, [r2]
+ 270:Generated_Source\PSoC4/I2C_I2C.c **** }
+ 191              		.loc 1 270 0
+ 192 000a 1022     		movs	r2, #16
+ 193 000c 034B     		ldr	r3, .L5+8
+ 194 000e 1A70     		strb	r2, [r3]
+ 195              		.loc 1 271 0
+ 196 0010 7047     		bx	lr
+ 197              	.L6:
+ 198 0012 C046     		.align	2
+ 199              	.L5:
+ 200 0014 68000740 		.word	1074200680
+ 201 0018 6C000740 		.word	1074200684
+ 202 001c 00000000 		.word	I2C_state
+ 203              		.cfi_endproc
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 10
+
+
+ 204              	.LFE1:
+ 205              		.size	I2C_I2CStop, .-I2C_I2CStop
+ 206              		.section	.text.I2C_I2CFwBlockReset,"ax",%progbits
+ 207              		.align	1
+ 208              		.global	I2C_I2CFwBlockReset
+ 209              		.code	16
+ 210              		.thumb_func
+ 211              		.type	I2C_I2CFwBlockReset, %function
+ 212              	I2C_I2CFwBlockReset:
+ 213              	.LFB2:
+ 272:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 273:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 274:Generated_Source\PSoC4/I2C_I2C.c **** /*******************************************************************************
+ 275:Generated_Source\PSoC4/I2C_I2C.c **** * Function Name: I2C_I2CFwBlockReset
+ 276:Generated_Source\PSoC4/I2C_I2C.c **** ****************************************************************************//**
+ 277:Generated_Source\PSoC4/I2C_I2C.c **** *
+ 278:Generated_Source\PSoC4/I2C_I2C.c **** * Resets the scb IP block and I2C into the known state.
+ 279:Generated_Source\PSoC4/I2C_I2C.c **** *
+ 280:Generated_Source\PSoC4/I2C_I2C.c **** *******************************************************************************/
+ 281:Generated_Source\PSoC4/I2C_I2C.c **** void I2C_I2CFwBlockReset(void)
+ 282:Generated_Source\PSoC4/I2C_I2C.c **** {
+ 214              		.loc 1 282 0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 283:Generated_Source\PSoC4/I2C_I2C.c ****     /* Disable scb IP: stop respond to I2C traffic */
+ 284:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_CTRL_REG &= (uint32) ~I2C_CTRL_ENABLED;
+ 218              		.loc 1 284 0
+ 219 0000 144A     		ldr	r2, .L8
+ 282:Generated_Source\PSoC4/I2C_I2C.c ****     /* Disable scb IP: stop respond to I2C traffic */
+ 220              		.loc 1 282 0
+ 221 0002 10B5     		push	{r4, lr}
+ 222              		.cfi_def_cfa_offset 8
+ 223              		.cfi_offset 4, -8
+ 224              		.cfi_offset 14, -4
+ 225              		.loc 1 284 0
+ 226 0004 1368     		ldr	r3, [r2]
+ 285:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 286:Generated_Source\PSoC4/I2C_I2C.c ****     /* Clear command registers they are not cleared after scb IP is disabled */
+ 287:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_I2C_MASTER_CMD_REG = 0u;
+ 227              		.loc 1 287 0
+ 228 0006 1449     		ldr	r1, .L8+4
+ 284:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 229              		.loc 1 284 0
+ 230 0008 5B00     		lsls	r3, r3, #1
+ 231 000a 5B08     		lsrs	r3, r3, #1
+ 232 000c 1360     		str	r3, [r2]
+ 233              		.loc 1 287 0
+ 234 000e 0023     		movs	r3, #0
+ 235 0010 0B60     		str	r3, [r1]
+ 288:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_I2C_SLAVE_CMD_REG  = 0u;
+ 236              		.loc 1 288 0
+ 237 0012 1249     		ldr	r1, .L8+8
+ 289:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 290:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_DISABLE_AUTO_DATA;
+ 238              		.loc 1 290 0
+ 239 0014 1248     		ldr	r0, .L8+12
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 11
+
+
+ 288:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_I2C_SLAVE_CMD_REG  = 0u;
+ 240              		.loc 1 288 0
+ 241 0016 0B60     		str	r3, [r1]
+ 242              		.loc 1 290 0
+ 243 0018 0468     		ldr	r4, [r0]
+ 244 001a 1249     		ldr	r1, .L8+16
+ 291:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 292:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_SetTxInterruptMode(I2C_NO_INTR_SOURCES);
+ 293:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_SetRxInterruptMode(I2C_NO_INTR_SOURCES);
+ 294:Generated_Source\PSoC4/I2C_I2C.c ****     
+ 295:Generated_Source\PSoC4/I2C_I2C.c **** #if(I2C_CY_SCBIP_V0)
+ 296:Generated_Source\PSoC4/I2C_I2C.c ****     /* Clear interrupt sources as they are not cleared after scb IP is disabled */
+ 297:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_ClearTxInterruptSource    (I2C_INTR_TX_ALL);
+ 298:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_ClearRxInterruptSource    (I2C_INTR_RX_ALL);
+ 299:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_ClearSlaveInterruptSource (I2C_INTR_SLAVE_ALL);
+ 300:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_ClearMasterInterruptSource(I2C_INTR_MASTER_ALL);
+ 301:Generated_Source\PSoC4/I2C_I2C.c **** #endif /* (I2C_CY_SCBIP_V0) */
+ 302:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 303:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_state = I2C_I2C_FSM_IDLE;
+ 304:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 305:Generated_Source\PSoC4/I2C_I2C.c ****     /* Enable scb IP: start respond to I2C traffic */
+ 306:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_CTRL_REG |= (uint32) I2C_CTRL_ENABLED;
+ 307:Generated_Source\PSoC4/I2C_I2C.c **** }
+ 245              		.loc 1 307 0
+ 246              		@ sp needed
+ 290:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 247              		.loc 1 290 0
+ 248 001c 2140     		ands	r1, r4
+ 249 001e 0160     		str	r1, [r0]
+ 292:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_SetRxInterruptMode(I2C_NO_INTR_SOURCES);
+ 250              		.loc 1 292 0
+ 251 0020 1149     		ldr	r1, .L8+20
+ 252 0022 0B60     		str	r3, [r1]
+ 293:Generated_Source\PSoC4/I2C_I2C.c ****     
+ 253              		.loc 1 293 0
+ 254 0024 1149     		ldr	r1, .L8+24
+ 255 0026 0B60     		str	r3, [r1]
+ 297:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_ClearRxInterruptSource    (I2C_INTR_RX_ALL);
+ 256              		.loc 1 297 0
+ 257 0028 1149     		ldr	r1, .L8+28
+ 258 002a 124B     		ldr	r3, .L8+32
+ 259 002c 1960     		str	r1, [r3]
+ 298:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_ClearSlaveInterruptSource (I2C_INTR_SLAVE_ALL);
+ 260              		.loc 1 298 0
+ 261 002e 1249     		ldr	r1, .L8+36
+ 262 0030 124B     		ldr	r3, .L8+40
+ 263 0032 1960     		str	r1, [r3]
+ 299:Generated_Source\PSoC4/I2C_I2C.c ****     I2C_ClearMasterInterruptSource(I2C_INTR_MASTER_ALL);
+ 264              		.loc 1 299 0
+ 265 0034 1249     		ldr	r1, .L8+44
+ 266 0036 134B     		ldr	r3, .L8+48
+ 267 0038 1960     		str	r1, [r3]
+ 300:Generated_Source\PSoC4/I2C_I2C.c **** #endif /* (I2C_CY_SCBIP_V0) */
+ 268              		.loc 1 300 0
+ 269 003a 1349     		ldr	r1, .L8+52
+ 270 003c 134B     		ldr	r3, .L8+56
+ 271 003e 1960     		str	r1, [r3]
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 12
+
+
+ 303:Generated_Source\PSoC4/I2C_I2C.c **** 
+ 272              		.loc 1 303 0
+ 273 0040 1021     		movs	r1, #16
+ 274 0042 134B     		ldr	r3, .L8+60
+ 275 0044 1970     		strb	r1, [r3]
+ 306:Generated_Source\PSoC4/I2C_I2C.c **** }
+ 276              		.loc 1 306 0
+ 277 0046 8021     		movs	r1, #128
+ 278 0048 1368     		ldr	r3, [r2]
+ 279 004a 0906     		lsls	r1, r1, #24
+ 280 004c 0B43     		orrs	r3, r1
+ 281 004e 1360     		str	r3, [r2]
+ 282              		.loc 1 307 0
+ 283 0050 10BD     		pop	{r4, pc}
+ 284              	.L9:
+ 285 0052 C046     		.align	2
+ 286              	.L8:
+ 287 0054 00000740 		.word	1074200576
+ 288 0058 68000740 		.word	1074200680
+ 289 005c 6C000740 		.word	1074200684
+ 290 0060 60000740 		.word	1074200672
+ 291 0064 FF5CFFFF 		.word	-41729
+ 292 0068 880F0740 		.word	1074204552
+ 293 006c C80F0740 		.word	1074204616
+ 294 0070 F3070000 		.word	2035
+ 295 0074 800F0740 		.word	1074204544
+ 296 0078 ED0F0000 		.word	4077
+ 297 007c C00F0740 		.word	1074204608
+ 298 0080 FF0F0000 		.word	4095
+ 299 0084 400F0740 		.word	1074204480
+ 300 0088 17030000 		.word	791
+ 301 008c 000F0740 		.word	1074204416
+ 302 0090 00000000 		.word	I2C_state
+ 303              		.cfi_endproc
+ 304              	.LFE2:
+ 305              		.size	I2C_I2CFwBlockReset, .-I2C_I2CFwBlockReset
+ 306              		.comm	I2C_state,1,1
+ 307              		.text
+ 308              	.Letext0:
+ 309              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 310              		.file 3 "Generated_Source\\PSoC4\\I2C_I2C_PVT.h"
+ 311              		.file 4 "Generated_Source\\PSoC4/CyLib.h"
+ 312              		.section	.debug_info,"",%progbits
+ 313              	.Ldebug_info0:
+ 314 0000 8B010000 		.4byte	0x18b
+ 315 0004 0400     		.2byte	0x4
+ 316 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 317 000a 04       		.byte	0x4
+ 318 000b 01       		.uleb128 0x1
+ 319 000c C7010000 		.4byte	.LASF27
+ 320 0010 0C       		.byte	0xc
+ 321 0011 CB000000 		.4byte	.LASF28
+ 322 0015 00000000 		.4byte	.LASF29
+ 323 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 324 001d 00000000 		.4byte	0
+ 325 0021 00000000 		.4byte	.Ldebug_line0
+ 326 0025 02       		.uleb128 0x2
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 13
+
+
+ 327 0026 01       		.byte	0x1
+ 328 0027 06       		.byte	0x6
+ 329 0028 BB010000 		.4byte	.LASF0
+ 330 002c 02       		.uleb128 0x2
+ 331 002d 01       		.byte	0x1
+ 332 002e 08       		.byte	0x8
+ 333 002f A5000000 		.4byte	.LASF1
+ 334 0033 02       		.uleb128 0x2
+ 335 0034 02       		.byte	0x2
+ 336 0035 05       		.byte	0x5
+ 337 0036 10010000 		.4byte	.LASF2
+ 338 003a 02       		.uleb128 0x2
+ 339 003b 02       		.byte	0x2
+ 340 003c 07       		.byte	0x7
+ 341 003d 57000000 		.4byte	.LASF3
+ 342 0041 02       		.uleb128 0x2
+ 343 0042 04       		.byte	0x4
+ 344 0043 05       		.byte	0x5
+ 345 0044 A6010000 		.4byte	.LASF4
+ 346 0048 02       		.uleb128 0x2
+ 347 0049 04       		.byte	0x4
+ 348 004a 07       		.byte	0x7
+ 349 004b B3000000 		.4byte	.LASF5
+ 350 004f 02       		.uleb128 0x2
+ 351 0050 08       		.byte	0x8
+ 352 0051 05       		.byte	0x5
+ 353 0052 5F010000 		.4byte	.LASF6
+ 354 0056 02       		.uleb128 0x2
+ 355 0057 08       		.byte	0x8
+ 356 0058 07       		.byte	0x7
+ 357 0059 2E010000 		.4byte	.LASF7
+ 358 005d 03       		.uleb128 0x3
+ 359 005e 04       		.byte	0x4
+ 360 005f 05       		.byte	0x5
+ 361 0060 696E7400 		.ascii	"int\000"
+ 362 0064 02       		.uleb128 0x2
+ 363 0065 04       		.byte	0x4
+ 364 0066 07       		.byte	0x7
+ 365 0067 21010000 		.4byte	.LASF8
+ 366 006b 04       		.uleb128 0x4
+ 367 006c C5000000 		.4byte	.LASF9
+ 368 0070 02       		.byte	0x2
+ 369 0071 E401     		.2byte	0x1e4
+ 370 0073 2C000000 		.4byte	0x2c
+ 371 0077 04       		.uleb128 0x4
+ 372 0078 1A010000 		.4byte	.LASF10
+ 373 007c 02       		.byte	0x2
+ 374 007d E601     		.2byte	0x1e6
+ 375 007f 48000000 		.4byte	0x48
+ 376 0083 02       		.uleb128 0x2
+ 377 0084 04       		.byte	0x4
+ 378 0085 04       		.byte	0x4
+ 379 0086 7E000000 		.4byte	.LASF11
+ 380 008a 02       		.uleb128 0x2
+ 381 008b 08       		.byte	0x8
+ 382 008c 04       		.byte	0x4
+ 383 008d EC000000 		.4byte	.LASF12
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 14
+
+
+ 384 0091 02       		.uleb128 0x2
+ 385 0092 01       		.byte	0x1
+ 386 0093 08       		.byte	0x8
+ 387 0094 6D010000 		.4byte	.LASF13
+ 388 0098 05       		.uleb128 0x5
+ 389 0099 6B000000 		.4byte	0x6b
+ 390 009d 04       		.uleb128 0x4
+ 391 009e 42000000 		.4byte	.LASF14
+ 392 00a2 02       		.byte	0x2
+ 393 00a3 9002     		.2byte	0x290
+ 394 00a5 A9000000 		.4byte	0xa9
+ 395 00a9 05       		.uleb128 0x5
+ 396 00aa 77000000 		.4byte	0x77
+ 397 00ae 02       		.uleb128 0x2
+ 398 00af 08       		.byte	0x8
+ 399 00b0 04       		.byte	0x4
+ 400 00b1 AF010000 		.4byte	.LASF15
+ 401 00b5 02       		.uleb128 0x2
+ 402 00b6 04       		.byte	0x4
+ 403 00b7 07       		.byte	0x7
+ 404 00b8 56010000 		.4byte	.LASF16
+ 405 00bc 06       		.uleb128 0x6
+ 406 00bd F3000000 		.4byte	.LASF30
+ 407 00c1 01       		.byte	0x1
+ 408 00c2 C1       		.byte	0xc1
+ 409 00c3 00000000 		.4byte	.LFB0
+ 410 00c7 D8000000 		.4byte	.LFE0-.LFB0
+ 411 00cb 01       		.uleb128 0x1
+ 412 00cc 9C       		.byte	0x9c
+ 413 00cd 0C010000 		.4byte	0x10c
+ 414 00d1 07       		.uleb128 0x7
+ 415 00d2 36000000 		.4byte	.LVL0
+ 416 00d6 6D010000 		.4byte	0x16d
+ 417 00da E4000000 		.4byte	0xe4
+ 418 00de 08       		.uleb128 0x8
+ 419 00df 01       		.uleb128 0x1
+ 420 00e0 50       		.byte	0x50
+ 421 00e1 01       		.uleb128 0x1
+ 422 00e2 3B       		.byte	0x3b
+ 423 00e3 00       		.byte	0
+ 424 00e4 07       		.uleb128 0x7
+ 425 00e5 3E000000 		.4byte	.LVL1
+ 426 00e9 78010000 		.4byte	0x178
+ 427 00ed FC000000 		.4byte	0xfc
+ 428 00f1 08       		.uleb128 0x8
+ 429 00f2 01       		.uleb128 0x1
+ 430 00f3 50       		.byte	0x50
+ 431 00f4 01       		.uleb128 0x1
+ 432 00f5 3B       		.byte	0x3b
+ 433 00f6 08       		.uleb128 0x8
+ 434 00f7 01       		.uleb128 0x1
+ 435 00f8 51       		.byte	0x51
+ 436 00f9 01       		.uleb128 0x1
+ 437 00fa 33       		.byte	0x33
+ 438 00fb 00       		.byte	0
+ 439 00fc 09       		.uleb128 0x9
+ 440 00fd 46000000 		.4byte	.LVL2
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 15
+
+
+ 441 0101 83010000 		.4byte	0x183
+ 442 0105 08       		.uleb128 0x8
+ 443 0106 01       		.uleb128 0x1
+ 444 0107 50       		.byte	0x50
+ 445 0108 01       		.uleb128 0x1
+ 446 0109 3B       		.byte	0x3b
+ 447 010a 00       		.byte	0
+ 448 010b 00       		.byte	0
+ 449 010c 0A       		.uleb128 0xa
+ 450 010d 7F010000 		.4byte	.LASF17
+ 451 0111 01       		.byte	0x1
+ 452 0112 0801     		.2byte	0x108
+ 453 0114 00000000 		.4byte	.LFB1
+ 454 0118 20000000 		.4byte	.LFE1-.LFB1
+ 455 011c 01       		.uleb128 0x1
+ 456 011d 9C       		.byte	0x9c
+ 457 011e 0A       		.uleb128 0xa
+ 458 011f 84000000 		.4byte	.LASF18
+ 459 0123 01       		.byte	0x1
+ 460 0124 1901     		.2byte	0x119
+ 461 0126 00000000 		.4byte	.LFB2
+ 462 012a 94000000 		.4byte	.LFE2-.LFB2
+ 463 012e 01       		.uleb128 0x1
+ 464 012f 9C       		.byte	0x9c
+ 465 0130 0B       		.uleb128 0xb
+ 466 0131 9C010000 		.4byte	.LASF19
+ 467 0135 01       		.byte	0x1
+ 468 0136 1B       		.byte	0x1b
+ 469 0137 98000000 		.4byte	0x98
+ 470 013b 05       		.uleb128 0x5
+ 471 013c 03       		.byte	0x3
+ 472 013d 00000000 		.4byte	I2C_state
+ 473 0141 0C       		.uleb128 0xc
+ 474 0142 98000000 		.4byte	.LASF20
+ 475 0146 03       		.byte	0x3
+ 476 0147 21       		.byte	0x21
+ 477 0148 98000000 		.4byte	0x98
+ 478 014c 0C       		.uleb128 0xc
+ 479 014d FF000000 		.4byte	.LASF21
+ 480 0151 03       		.byte	0x3
+ 481 0152 26       		.byte	0x26
+ 482 0153 A9000000 		.4byte	0xa9
+ 483 0157 0C       		.uleb128 0xc
+ 484 0158 8B010000 		.4byte	.LASF22
+ 485 015c 03       		.byte	0x3
+ 486 015d 2B       		.byte	0x2b
+ 487 015e A9000000 		.4byte	0xa9
+ 488 0162 0C       		.uleb128 0xc
+ 489 0163 6A000000 		.4byte	.LASF23
+ 490 0167 03       		.byte	0x3
+ 491 0168 2D       		.byte	0x2d
+ 492 0169 98000000 		.4byte	0x98
+ 493 016d 0D       		.uleb128 0xd
+ 494 016e 72010000 		.4byte	.LASF24
+ 495 0172 72010000 		.4byte	.LASF24
+ 496 0176 04       		.byte	0x4
+ 497 0177 C5       		.byte	0xc5
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 16
+
+
+ 498 0178 0D       		.uleb128 0xd
+ 499 0179 45010000 		.4byte	.LASF25
+ 500 017d 45010000 		.4byte	.LASF25
+ 501 0181 04       		.byte	0x4
+ 502 0182 C0       		.byte	0xc0
+ 503 0183 0D       		.uleb128 0xd
+ 504 0184 48000000 		.4byte	.LASF26
+ 505 0188 48000000 		.4byte	.LASF26
+ 506 018c 04       		.byte	0x4
+ 507 018d BD       		.byte	0xbd
+ 508 018e 00       		.byte	0
+ 509              		.section	.debug_abbrev,"",%progbits
+ 510              	.Ldebug_abbrev0:
+ 511 0000 01       		.uleb128 0x1
+ 512 0001 11       		.uleb128 0x11
+ 513 0002 01       		.byte	0x1
+ 514 0003 25       		.uleb128 0x25
+ 515 0004 0E       		.uleb128 0xe
+ 516 0005 13       		.uleb128 0x13
+ 517 0006 0B       		.uleb128 0xb
+ 518 0007 03       		.uleb128 0x3
+ 519 0008 0E       		.uleb128 0xe
+ 520 0009 1B       		.uleb128 0x1b
+ 521 000a 0E       		.uleb128 0xe
+ 522 000b 55       		.uleb128 0x55
+ 523 000c 17       		.uleb128 0x17
+ 524 000d 11       		.uleb128 0x11
+ 525 000e 01       		.uleb128 0x1
+ 526 000f 10       		.uleb128 0x10
+ 527 0010 17       		.uleb128 0x17
+ 528 0011 00       		.byte	0
+ 529 0012 00       		.byte	0
+ 530 0013 02       		.uleb128 0x2
+ 531 0014 24       		.uleb128 0x24
+ 532 0015 00       		.byte	0
+ 533 0016 0B       		.uleb128 0xb
+ 534 0017 0B       		.uleb128 0xb
+ 535 0018 3E       		.uleb128 0x3e
+ 536 0019 0B       		.uleb128 0xb
+ 537 001a 03       		.uleb128 0x3
+ 538 001b 0E       		.uleb128 0xe
+ 539 001c 00       		.byte	0
+ 540 001d 00       		.byte	0
+ 541 001e 03       		.uleb128 0x3
+ 542 001f 24       		.uleb128 0x24
+ 543 0020 00       		.byte	0
+ 544 0021 0B       		.uleb128 0xb
+ 545 0022 0B       		.uleb128 0xb
+ 546 0023 3E       		.uleb128 0x3e
+ 547 0024 0B       		.uleb128 0xb
+ 548 0025 03       		.uleb128 0x3
+ 549 0026 08       		.uleb128 0x8
+ 550 0027 00       		.byte	0
+ 551 0028 00       		.byte	0
+ 552 0029 04       		.uleb128 0x4
+ 553 002a 16       		.uleb128 0x16
+ 554 002b 00       		.byte	0
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 17
+
+
+ 555 002c 03       		.uleb128 0x3
+ 556 002d 0E       		.uleb128 0xe
+ 557 002e 3A       		.uleb128 0x3a
+ 558 002f 0B       		.uleb128 0xb
+ 559 0030 3B       		.uleb128 0x3b
+ 560 0031 05       		.uleb128 0x5
+ 561 0032 49       		.uleb128 0x49
+ 562 0033 13       		.uleb128 0x13
+ 563 0034 00       		.byte	0
+ 564 0035 00       		.byte	0
+ 565 0036 05       		.uleb128 0x5
+ 566 0037 35       		.uleb128 0x35
+ 567 0038 00       		.byte	0
+ 568 0039 49       		.uleb128 0x49
+ 569 003a 13       		.uleb128 0x13
+ 570 003b 00       		.byte	0
+ 571 003c 00       		.byte	0
+ 572 003d 06       		.uleb128 0x6
+ 573 003e 2E       		.uleb128 0x2e
+ 574 003f 01       		.byte	0x1
+ 575 0040 3F       		.uleb128 0x3f
+ 576 0041 19       		.uleb128 0x19
+ 577 0042 03       		.uleb128 0x3
+ 578 0043 0E       		.uleb128 0xe
+ 579 0044 3A       		.uleb128 0x3a
+ 580 0045 0B       		.uleb128 0xb
+ 581 0046 3B       		.uleb128 0x3b
+ 582 0047 0B       		.uleb128 0xb
+ 583 0048 27       		.uleb128 0x27
+ 584 0049 19       		.uleb128 0x19
+ 585 004a 11       		.uleb128 0x11
+ 586 004b 01       		.uleb128 0x1
+ 587 004c 12       		.uleb128 0x12
+ 588 004d 06       		.uleb128 0x6
+ 589 004e 40       		.uleb128 0x40
+ 590 004f 18       		.uleb128 0x18
+ 591 0050 9742     		.uleb128 0x2117
+ 592 0052 19       		.uleb128 0x19
+ 593 0053 01       		.uleb128 0x1
+ 594 0054 13       		.uleb128 0x13
+ 595 0055 00       		.byte	0
+ 596 0056 00       		.byte	0
+ 597 0057 07       		.uleb128 0x7
+ 598 0058 898201   		.uleb128 0x4109
+ 599 005b 01       		.byte	0x1
+ 600 005c 11       		.uleb128 0x11
+ 601 005d 01       		.uleb128 0x1
+ 602 005e 31       		.uleb128 0x31
+ 603 005f 13       		.uleb128 0x13
+ 604 0060 01       		.uleb128 0x1
+ 605 0061 13       		.uleb128 0x13
+ 606 0062 00       		.byte	0
+ 607 0063 00       		.byte	0
+ 608 0064 08       		.uleb128 0x8
+ 609 0065 8A8201   		.uleb128 0x410a
+ 610 0068 00       		.byte	0
+ 611 0069 02       		.uleb128 0x2
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 18
+
+
+ 612 006a 18       		.uleb128 0x18
+ 613 006b 9142     		.uleb128 0x2111
+ 614 006d 18       		.uleb128 0x18
+ 615 006e 00       		.byte	0
+ 616 006f 00       		.byte	0
+ 617 0070 09       		.uleb128 0x9
+ 618 0071 898201   		.uleb128 0x4109
+ 619 0074 01       		.byte	0x1
+ 620 0075 11       		.uleb128 0x11
+ 621 0076 01       		.uleb128 0x1
+ 622 0077 31       		.uleb128 0x31
+ 623 0078 13       		.uleb128 0x13
+ 624 0079 00       		.byte	0
+ 625 007a 00       		.byte	0
+ 626 007b 0A       		.uleb128 0xa
+ 627 007c 2E       		.uleb128 0x2e
+ 628 007d 00       		.byte	0
+ 629 007e 3F       		.uleb128 0x3f
+ 630 007f 19       		.uleb128 0x19
+ 631 0080 03       		.uleb128 0x3
+ 632 0081 0E       		.uleb128 0xe
+ 633 0082 3A       		.uleb128 0x3a
+ 634 0083 0B       		.uleb128 0xb
+ 635 0084 3B       		.uleb128 0x3b
+ 636 0085 05       		.uleb128 0x5
+ 637 0086 27       		.uleb128 0x27
+ 638 0087 19       		.uleb128 0x19
+ 639 0088 11       		.uleb128 0x11
+ 640 0089 01       		.uleb128 0x1
+ 641 008a 12       		.uleb128 0x12
+ 642 008b 06       		.uleb128 0x6
+ 643 008c 40       		.uleb128 0x40
+ 644 008d 18       		.uleb128 0x18
+ 645 008e 9742     		.uleb128 0x2117
+ 646 0090 19       		.uleb128 0x19
+ 647 0091 00       		.byte	0
+ 648 0092 00       		.byte	0
+ 649 0093 0B       		.uleb128 0xb
+ 650 0094 34       		.uleb128 0x34
+ 651 0095 00       		.byte	0
+ 652 0096 03       		.uleb128 0x3
+ 653 0097 0E       		.uleb128 0xe
+ 654 0098 3A       		.uleb128 0x3a
+ 655 0099 0B       		.uleb128 0xb
+ 656 009a 3B       		.uleb128 0x3b
+ 657 009b 0B       		.uleb128 0xb
+ 658 009c 49       		.uleb128 0x49
+ 659 009d 13       		.uleb128 0x13
+ 660 009e 3F       		.uleb128 0x3f
+ 661 009f 19       		.uleb128 0x19
+ 662 00a0 02       		.uleb128 0x2
+ 663 00a1 18       		.uleb128 0x18
+ 664 00a2 00       		.byte	0
+ 665 00a3 00       		.byte	0
+ 666 00a4 0C       		.uleb128 0xc
+ 667 00a5 34       		.uleb128 0x34
+ 668 00a6 00       		.byte	0
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 19
+
+
+ 669 00a7 03       		.uleb128 0x3
+ 670 00a8 0E       		.uleb128 0xe
+ 671 00a9 3A       		.uleb128 0x3a
+ 672 00aa 0B       		.uleb128 0xb
+ 673 00ab 3B       		.uleb128 0x3b
+ 674 00ac 0B       		.uleb128 0xb
+ 675 00ad 49       		.uleb128 0x49
+ 676 00ae 13       		.uleb128 0x13
+ 677 00af 3F       		.uleb128 0x3f
+ 678 00b0 19       		.uleb128 0x19
+ 679 00b1 3C       		.uleb128 0x3c
+ 680 00b2 19       		.uleb128 0x19
+ 681 00b3 00       		.byte	0
+ 682 00b4 00       		.byte	0
+ 683 00b5 0D       		.uleb128 0xd
+ 684 00b6 2E       		.uleb128 0x2e
+ 685 00b7 00       		.byte	0
+ 686 00b8 3F       		.uleb128 0x3f
+ 687 00b9 19       		.uleb128 0x19
+ 688 00ba 3C       		.uleb128 0x3c
+ 689 00bb 19       		.uleb128 0x19
+ 690 00bc 6E       		.uleb128 0x6e
+ 691 00bd 0E       		.uleb128 0xe
+ 692 00be 03       		.uleb128 0x3
+ 693 00bf 0E       		.uleb128 0xe
+ 694 00c0 3A       		.uleb128 0x3a
+ 695 00c1 0B       		.uleb128 0xb
+ 696 00c2 3B       		.uleb128 0x3b
+ 697 00c3 0B       		.uleb128 0xb
+ 698 00c4 00       		.byte	0
+ 699 00c5 00       		.byte	0
+ 700 00c6 00       		.byte	0
+ 701              		.section	.debug_aranges,"",%progbits
+ 702 0000 2C000000 		.4byte	0x2c
+ 703 0004 0200     		.2byte	0x2
+ 704 0006 00000000 		.4byte	.Ldebug_info0
+ 705 000a 04       		.byte	0x4
+ 706 000b 00       		.byte	0
+ 707 000c 0000     		.2byte	0
+ 708 000e 0000     		.2byte	0
+ 709 0010 00000000 		.4byte	.LFB0
+ 710 0014 D8000000 		.4byte	.LFE0-.LFB0
+ 711 0018 00000000 		.4byte	.LFB1
+ 712 001c 20000000 		.4byte	.LFE1-.LFB1
+ 713 0020 00000000 		.4byte	.LFB2
+ 714 0024 94000000 		.4byte	.LFE2-.LFB2
+ 715 0028 00000000 		.4byte	0
+ 716 002c 00000000 		.4byte	0
+ 717              		.section	.debug_ranges,"",%progbits
+ 718              	.Ldebug_ranges0:
+ 719 0000 00000000 		.4byte	.LFB0
+ 720 0004 D8000000 		.4byte	.LFE0
+ 721 0008 00000000 		.4byte	.LFB1
+ 722 000c 20000000 		.4byte	.LFE1
+ 723 0010 00000000 		.4byte	.LFB2
+ 724 0014 94000000 		.4byte	.LFE2
+ 725 0018 00000000 		.4byte	0
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 20
+
+
+ 726 001c 00000000 		.4byte	0
+ 727              		.section	.debug_line,"",%progbits
+ 728              	.Ldebug_line0:
+ 729 0000 F0000000 		.section	.debug_str,"MS",%progbits,1
+ 729      02006000 
+ 729      00000201 
+ 729      FB0E0D00 
+ 729      01010101 
+ 730              	.LASF29:
+ 731 0000 443A5C68 		.ascii	"D:\\harshita\\final_files - D\\psoc\\4_1_new\\I2C_B"
+ 731      61727368 
+ 731      6974615C 
+ 731      66696E61 
+ 731      6C5F6669 
+ 732 002e 6F6F746C 		.ascii	"ootloader_Red.cydsn\000"
+ 732      6F616465 
+ 732      725F5265 
+ 732      642E6379 
+ 732      64736E00 
+ 733              	.LASF14:
+ 734 0042 72656733 		.ascii	"reg32\000"
+ 734      3200
+ 735              	.LASF26:
+ 736 0048 4379496E 		.ascii	"CyIntSetVector\000"
+ 736      74536574 
+ 736      56656374 
+ 736      6F7200
+ 737              	.LASF3:
+ 738 0057 73686F72 		.ascii	"short unsigned int\000"
+ 738      7420756E 
+ 738      7369676E 
+ 738      65642069 
+ 738      6E7400
+ 739              	.LASF23:
+ 740 006a 4932435F 		.ascii	"I2C_slOverFlowCount\000"
+ 740      736C4F76 
+ 740      6572466C 
+ 740      6F77436F 
+ 740      756E7400 
+ 741              	.LASF11:
+ 742 007e 666C6F61 		.ascii	"float\000"
+ 742      7400
+ 743              	.LASF18:
+ 744 0084 4932435F 		.ascii	"I2C_I2CFwBlockReset\000"
+ 744      49324346 
+ 744      77426C6F 
+ 744      636B5265 
+ 744      73657400 
+ 745              	.LASF20:
+ 746 0098 4932435F 		.ascii	"I2C_slStatus\000"
+ 746      736C5374 
+ 746      61747573 
+ 746      00
+ 747              	.LASF1:
+ 748 00a5 756E7369 		.ascii	"unsigned char\000"
+ 748      676E6564 
+ 748      20636861 
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 21
+
+
+ 748      7200
+ 749              	.LASF5:
+ 750 00b3 6C6F6E67 		.ascii	"long unsigned int\000"
+ 750      20756E73 
+ 750      69676E65 
+ 750      6420696E 
+ 750      7400
+ 751              	.LASF9:
+ 752 00c5 75696E74 		.ascii	"uint8\000"
+ 752      3800
+ 753              	.LASF28:
+ 754 00cb 47656E65 		.ascii	"Generated_Source\\PSoC4\\I2C_I2C.c\000"
+ 754      72617465 
+ 754      645F536F 
+ 754      75726365 
+ 754      5C50536F 
+ 755              	.LASF12:
+ 756 00ec 646F7562 		.ascii	"double\000"
+ 756      6C6500
+ 757              	.LASF30:
+ 758 00f3 4932435F 		.ascii	"I2C_I2CInit\000"
+ 758      49324349 
+ 758      6E697400 
+ 759              	.LASF21:
+ 760 00ff 4932435F 		.ascii	"I2C_slWrBufIndex\000"
+ 760      736C5772 
+ 760      42756649 
+ 760      6E646578 
+ 760      00
+ 761              	.LASF2:
+ 762 0110 73686F72 		.ascii	"short int\000"
+ 762      7420696E 
+ 762      7400
+ 763              	.LASF10:
+ 764 011a 75696E74 		.ascii	"uint32\000"
+ 764      333200
+ 765              	.LASF8:
+ 766 0121 756E7369 		.ascii	"unsigned int\000"
+ 766      676E6564 
+ 766      20696E74 
+ 766      00
+ 767              	.LASF7:
+ 768 012e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 768      206C6F6E 
+ 768      6720756E 
+ 768      7369676E 
+ 768      65642069 
+ 769              	.LASF25:
+ 770 0145 4379496E 		.ascii	"CyIntSetPriority\000"
+ 770      74536574 
+ 770      5072696F 
+ 770      72697479 
+ 770      00
+ 771              	.LASF16:
+ 772 0156 73697A65 		.ascii	"sizetype\000"
+ 772      74797065 
+ 772      00
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\cc1pIlCd.s 			page 22
+
+
+ 773              	.LASF6:
+ 774 015f 6C6F6E67 		.ascii	"long long int\000"
+ 774      206C6F6E 
+ 774      6720696E 
+ 774      7400
+ 775              	.LASF13:
+ 776 016d 63686172 		.ascii	"char\000"
+ 776      00
+ 777              	.LASF24:
+ 778 0172 4379496E 		.ascii	"CyIntDisable\000"
+ 778      74446973 
+ 778      61626C65 
+ 778      00
+ 779              	.LASF17:
+ 780 017f 4932435F 		.ascii	"I2C_I2CStop\000"
+ 780      49324353 
+ 780      746F7000 
+ 781              	.LASF22:
+ 782 018b 4932435F 		.ascii	"I2C_slRdBufIndex\000"
+ 782      736C5264 
+ 782      42756649 
+ 782      6E646578 
+ 782      00
+ 783              	.LASF19:
+ 784 019c 4932435F 		.ascii	"I2C_state\000"
+ 784      73746174 
+ 784      6500
+ 785              	.LASF4:
+ 786 01a6 6C6F6E67 		.ascii	"long int\000"
+ 786      20696E74 
+ 786      00
+ 787              	.LASF15:
+ 788 01af 6C6F6E67 		.ascii	"long double\000"
+ 788      20646F75 
+ 788      626C6500 
+ 789              	.LASF0:
+ 790 01bb 7369676E 		.ascii	"signed char\000"
+ 790      65642063 
+ 790      68617200 
+ 791              	.LASF27:
+ 792 01c7 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 792      43313120 
+ 792      352E342E 
+ 792      31203230 
+ 792      31363036 
+ 793 01fa 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 793      20726576 
+ 793      6973696F 
+ 793      6E203233 
+ 793      37373135 
+ 794 022d 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 794      66756E63 
+ 794      74696F6E 
+ 794      2D736563 
+ 794      74696F6E 
+ 795              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

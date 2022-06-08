@@ -1,0 +1,43 @@
+# Design01
+# 2020-12-03 09:43:24Z
+
+set_location "ClockGenBlock" m0s8clockgenblockcell -1 -1 0
+set_io "L0(0)" iocell 2 7
+set_io "L1(0)" iocell 3 6
+set_io "L2(0)" iocell 3 4
+set_io "L3(0)" iocell 3 7
+set_io "L4(0)" iocell 0 3
+set_io "L5(0)" iocell 0 2
+set_io "L6(0)" iocell 0 1
+set_io "L7(0)" iocell 0 0
+set_io "\I2C:sda(0)\" iocell 3 1
+set_io "\I2C:scl(0)\" iocell 3 0
+set_io "L8(0)" iocell 0 7
+set_io "L9(0)" iocell 0 6
+set_io "L10(0)" iocell 2 6
+set_io "L11(0)" iocell 2 5
+set_io "L12(0)" iocell 2 4
+set_io "L13(0)" iocell 3 2
+set_io "L14(0)" iocell 3 5
+set_io "L15(0)" iocell 3 3
+set_io "L16(0)" iocell 4 0
+set_io "L17(0)" iocell 1 5
+set_io "L18(0)" iocell 1 0
+set_io "L19(0)" iocell 1 3
+set_io "L21(0)" iocell 1 4
+set_io "L22(0)" iocell 1 1
+set_io "L20(0)" iocell 1 2
+set_io "L23(0)" iocell 1 6
+set_io "L24(0)" iocell 1 7
+set_io "\CapSense_1:Sns(0)\" iocell 2 2
+set_io "\CapSense_1:Sns(1)\" iocell 4 1
+set_io "\CapSense_1:Sns(2)\" iocell 2 3
+set_io "\CapSense_1:Sns(3)\" iocell 4 3
+set_io "\CapSense_1:Sns(4)\" iocell 2 0
+set_io "\CapSense_1:Sns(5)\" iocell 0 5
+set_io "\CapSense_1:Sns(6)\" iocell 0 4
+set_io "\CapSense_1:Sns(7)\" iocell 2 1
+set_io "\CapSense_1:Cmod(0)\" iocell 4 2
+set_location "\CapSense_1:IDACMod:cy_psoc4_idac\" p4csidac8cell -1 -1 0
+set_location "\CapSense_1:CSD\" p4csdcell -1 -1 0
+set_location "\CapSense_1:IDACComp:cy_psoc4_idac\" p4csidac7cell -1 -1 0

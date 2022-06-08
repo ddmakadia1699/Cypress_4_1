@@ -1,0 +1,2054 @@
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"I2C_I2C_BOOT.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.I2C_I2CResposeInsert,"ax",%progbits
+  20              		.align	1
+  21              		.code	16
+  22              		.thumb_func
+  23              		.type	I2C_I2CResposeInsert, %function
+  24              	I2C_I2CResposeInsert:
+  25              	.LFB5:
+  26              		.file 1 "Generated_Source\\PSoC4\\I2C_I2C_BOOT.c"
+   1:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /***************************************************************************//**
+   2:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \file I2C_I2C_BOOT.c
+   3:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \version 4.0
+   4:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+   5:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \brief
+   6:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  This file provides the source code of the bootloader communication APIs
+   7:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  for the SCB Component I2C mode.
+   8:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+   9:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Note:
+  10:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+  11:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ********************************************************************************
+  12:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \copyright
+  13:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Copyright 2013-2017, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * You may use this file only in accordance with the license, terms, conditions,
+  15:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  16:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *******************************************************************************/
+  18:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  19:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** #include "I2C_BOOT.h"
+  20:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** #include "I2C_I2C_PVT.h"
+  21:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  22:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** #if defined(CYDEV_BOOTLOADER_IO_COMP) && (I2C_I2C_BTLDR_COMM_ENABLED)
+  23:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  24:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /***************************************
+  25:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *    Private I/O Component Vars
+  26:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ***************************************/
+  27:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  28:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /* Writes to this buffer */
+  29:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** static uint8 I2C_slReadBuf[I2C_I2C_BTLDR_SIZEOF_READ_BUFFER];
+  30:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  31:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /* Reads from this buffer */
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 2
+
+
+  32:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** static uint8 I2C_slWriteBuf[I2C_I2C_BTLDR_SIZEOF_WRITE_BUFFER];
+  33:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  34:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /* Flag to release buffer to be read */
+  35:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** static uint32 I2C_applyBuffer;
+  36:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  37:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  38:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /***************************************
+  39:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *    Private Function Prototypes
+  40:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ***************************************/
+  41:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  42:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** static void I2C_I2CResposeInsert(void);
+  43:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  44:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  45:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /*******************************************************************************
+  46:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Function Name: I2C_I2CCyBtldrCommStart
+  47:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ****************************************************************************//**
+  48:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+  49:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Starts the I2C component and enables its interrupt.
+  50:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Every incoming I2C write transaction is treated as a command for the
+  51:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  bootloader.
+  52:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Every incoming I2C read transaction returns 0xFF until the bootloader
+  53:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  provides a response to the executed command.
+  54:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+  55:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \globalvars
+  56:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_applyBuffer - the flag to release the buffer with a response
+  57:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  to be read by the host.
+  58:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+  59:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *******************************************************************************/
+  60:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** void I2C_I2CCyBtldrCommStart(void)
+  61:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** {
+  62:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_I2CSlaveInitWriteBuf(I2C_slWriteBuf, I2C_I2C_BTLDR_SIZEOF_WRITE_BUFFER);
+  63:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_I2CSlaveInitReadBuf (I2C_slReadBuf, 0u);
+  64:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  65:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_SetCustomInterruptHandler(&I2C_I2CResposeInsert);
+  66:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_applyBuffer = 0u;
+  67:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  68:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_Start();
+  69:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+  70:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  71:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  72:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /*******************************************************************************
+  73:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Function Name: I2C_I2CCyBtldrCommStop
+  74:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ****************************************************************************//**
+  75:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+  76:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Disables the I2C component.
+  77:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+  78:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *******************************************************************************/
+  79:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** void I2C_I2CCyBtldrCommStop(void)
+  80:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** {
+  81:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_Stop();
+  82:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+  83:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  84:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+  85:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /*******************************************************************************
+  86:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Function Name: I2C_I2CCyBtldrCommReset
+  87:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ****************************************************************************//**
+  88:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 3
+
+
+  89:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Resets read and write I2C buffers to the initial state and resets the slave
+  90:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  status.
+  91:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+  92:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \globalvars
+  93:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_slRdBufSize - used to store slave read buffer size.
+  94:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_slRdBufIndex - used to store the current index within the
+  95:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  slave read buffer.
+  96:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_slWrBufIndex - used to store current index within slave
+  97:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  write buffer.
+  98:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_slStatus  - used to store current status of I2C slave.
+  99:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 100:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *******************************************************************************/
+ 101:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** void I2C_I2CCyBtldrCommReset(void)
+ 102:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** {
+ 103:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     /* Make read buffer full */
+ 104:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_slRdBufSize = 0u;
+ 105:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 106:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     /* Reset write buffer and Read buffer */
+ 107:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_slRdBufIndex = 0u;
+ 108:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_slWrBufIndex = 0u;
+ 109:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 110:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     /* Clear read and write status */
+ 111:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_slStatus = 0u;
+ 112:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+ 113:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 114:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 115:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /*******************************************************************************
+ 116:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Function Name: I2C_I2CCyBtldrCommRead
+ 117:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ****************************************************************************//**
+ 118:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 119:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Allows the caller to read data from the bootloader host (the host writes the
+ 120:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  data). The function handles polling to allow a block of data to be completely
+ 121:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  received from the host device.
+ 122:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 123:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param pData: Pointer to storage for the block of data to be read from the
+ 124:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   bootloader host
+ 125:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param size: Number of bytes to be read.
+ 126:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param count: Pointer to the variable to write the number of bytes actually
+ 127:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   read.
+ 128:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param timeOut: Number of units in 10 ms to wait before returning
+ 129:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   because of a timeout.
+ 130:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 131:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \return
+ 132:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   Returns CYRET_SUCCESS if no problem was encountered or returns the value
+ 133:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   that best describes the problem. For more information refer to the
+ 134:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   "Return Codes" section of the System Reference Guide.
+ 135:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 136:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \globalvars
+ 137:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_slStatus  - used to store current status of I2C slave.
+ 138:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_slWriteBuf - used to store received command.
+ 139:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_slWrBufIndex - used to store current index within slave
+ 140:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  write buffer.
+ 141:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 142:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *******************************************************************************/
+ 143:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** cystatus I2C_I2CCyBtldrCommRead(uint8 pData[], uint16 size, uint16 * count, uint8 timeOut)
+ 144:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** {
+ 145:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     cystatus status;
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 4
+
+
+ 146:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     uint32 timeoutMs;
+ 147:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 148:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     status = CYRET_BAD_PARAM;
+ 149:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 150:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     if ((NULL != pData) && (size > 0u))
+ 151:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     {
+ 152:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         status = CYRET_TIMEOUT;
+ 153:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         timeoutMs = ((uint32) 10u * timeOut); /* Convert from 10mS check to 1mS checks */
+ 154:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 155:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         while (0u != timeoutMs)
+ 156:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         {
+ 157:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             /* Check if host complete write */
+ 158:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             if (0u != (I2C_I2C_SSTAT_WR_CMPLT & I2C_slStatus))
+ 159:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             {
+ 160:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 /* Copy number of written bytes */
+ 161:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 *count = (uint16) I2C_slWrBufIndex;
+ 162:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 163:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 /* Clear slave status and write index */
+ 164:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 I2C_slStatus = 0u;
+ 165:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 I2C_slWrBufIndex = 0u;
+ 166:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 167:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 /* Copy command into bootloader buffer */
+ 168:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 (void) memcpy((void *) pData, (const void *) I2C_slWriteBuf,
+ 169:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                                               I2C_BYTES_TO_COPY(*count, size));
+ 170:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 171:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 status = CYRET_SUCCESS;
+ 172:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 break;
+ 173:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             }
+ 174:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 175:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             CyDelay(I2C_WAIT_1_MS);
+ 176:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             --timeoutMs;
+ 177:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         }
+ 178:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     }
+ 179:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 180:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     return(status);
+ 181:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+ 182:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 183:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 184:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /*******************************************************************************
+ 185:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Function Name: I2C_I2CCyBtldrCommWrite
+ 186:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ****************************************************************************//**
+ 187:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 188:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Allows the caller to write data to the bootloader host (the host reads the
+ 189:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  data). The function does not use timeout and returns after data has been
+ 190:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  copied into the slave read buffer. This data is available to be read by the
+ 191:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  bootloader host until following host data write.
+ 192:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 193:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param pData: Pointer to the block of data to be written to the bootloader
+ 194:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   host.
+ 195:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param size: Number of bytes to be written.
+ 196:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param count: Pointer to the variable to write the number of bytes actually
+ 197:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   written.
+ 198:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \param timeOut: Number of units in 10 ms to wait before returning
+ 199:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   because of a timeout.
+ 200:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 201:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  \return
+ 202:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   Returns CYRET_SUCCESS if no problem was encountered or returns the value
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 5
+
+
+ 203:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   that best describes the problem. For more information refer to the
+ 204:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *   "Return Codes" section of the System Reference Guide.
+ 205:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 206:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \globalvars
+ 207:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_applyBuffer - the flag to release the buffer with
+ 208:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  to be read by the host.
+ 209:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 210:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *******************************************************************************/
+ 211:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** cystatus I2C_I2CCyBtldrCommWrite(const uint8 pData[], uint16 size, uint16 * count, uint8 timeOut)
+ 212:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** {
+ 213:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     cystatus status;
+ 214:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 215:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     status = CYRET_BAD_PARAM;
+ 216:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 217:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     if ((NULL != pData) && (size > 0u))
+ 218:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     {
+ 219:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         /* Copy response into read buffer */
+ 220:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         *count = size;
+ 221:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         (void) memcpy((void *) I2C_slReadBuf, (const void *) pData, (uint32) size);
+ 222:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 223:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         /* Read buffer is ready to be released to host */
+ 224:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         I2C_applyBuffer = (uint32) size;
+ 225:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 226:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         if (0u != timeOut)
+ 227:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         {
+ 228:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             /* Suppress compiler warning */
+ 229:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         }
+ 230:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 231:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         status = CYRET_SUCCESS;
+ 232:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     }
+ 233:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 234:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     return(status);
+ 235:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+ 236:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 237:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 238:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** /*******************************************************************************
+ 239:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * Function Name: I2C_I2CResposeInsert
+ 240:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** ****************************************************************************//**
+ 241:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 242:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Releases the read buffer to be read when a response is copied to the buffer
+ 243:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  and a new read transaction starts.
+ 244:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  Closes the read buffer when write transaction is started.
+ 245:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 246:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** * \globalvars
+ 247:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  I2C_applyBuffer - the flag to release the buffer with a response
+ 248:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *  to be read by the host.
+ 249:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *
+ 250:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** *******************************************************************************/
+ 251:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** static void I2C_I2CResposeInsert(void)
+ 252:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** {
+  27              		.loc 1 252 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+ 253:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     if (I2C_CHECK_INTR_SLAVE_MASKED(I2C_INTR_SLAVE_I2C_ADDR_MATCH))
+  32              		.loc 1 253 0
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 6
+
+
+  33 0000 0D4B     		ldr	r3, .L12
+  34 0002 1B68     		ldr	r3, [r3]
+  35 0004 5B06     		lsls	r3, r3, #25
+  36 0006 15D5     		bpl	.L1
+ 254:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     {
+ 255:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         if (I2C_CHECK_I2C_STATUS(I2C_I2C_STATUS_S_READ))
+  37              		.loc 1 255 0
+  38 0008 0C4B     		ldr	r3, .L12+4
+  39 000a 1B68     		ldr	r3, [r3]
+  40 000c DB06     		lsls	r3, r3, #27
+  41 000e 09D5     		bpl	.L3
+  42              	.LBB4:
+ 256:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         {
+ 257:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             /* Address phase, host reads: release read buffer */
+ 258:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             if (0u != I2C_applyBuffer)
+  43              		.loc 1 258 0
+  44 0010 0B4B     		ldr	r3, .L12+8
+  45 0012 1A68     		ldr	r2, [r3]
+  46 0014 002A     		cmp	r2, #0
+  47 0016 0DD0     		beq	.L1
+ 259:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             {
+ 260:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 I2C_slRdBufSize  = I2C_applyBuffer;
+  48              		.loc 1 260 0
+  49 0018 0A49     		ldr	r1, .L12+12
+  50 001a 0A60     		str	r2, [r1]
+ 261:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 I2C_slRdBufIndex = 0u;
+  51              		.loc 1 261 0
+  52 001c 0022     		movs	r2, #0
+  53 001e 0A49     		ldr	r1, .L12+16
+  54 0020 0A60     		str	r2, [r1]
+  55 0022 06E0     		b	.L10
+  56              	.L3:
+  57              	.LBE4:
+ 262:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 I2C_applyBuffer  = 0u;
+ 263:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             }
+ 264:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         }
+ 265:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         else
+ 266:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         {
+ 267:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             /* Address phase, host writes: close read buffer */
+ 268:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             if (I2C_slRdBufIndex != I2C_slRdBufSize)
+  58              		.loc 1 268 0
+  59 0024 084B     		ldr	r3, .L12+16
+  60 0026 074A     		ldr	r2, .L12+12
+  61 0028 1868     		ldr	r0, [r3]
+  62 002a 1168     		ldr	r1, [r2]
+  63 002c 8842     		cmp	r0, r1
+  64 002e 01D0     		beq	.L1
+ 269:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             {
+ 270:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 I2C_slRdBufIndex = I2C_slRdBufSize;
+  65              		.loc 1 270 0
+  66 0030 1268     		ldr	r2, [r2]
+  67              	.L10:
+  68 0032 1A60     		str	r2, [r3]
+  69              	.L1:
+ 271:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             }
+ 272:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         }
+ 273:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     }
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 7
+
+
+ 274:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+  70              		.loc 1 274 0
+  71              		@ sp needed
+  72 0034 7047     		bx	lr
+  73              	.L13:
+  74 0036 C046     		.align	2
+  75              	.L12:
+  76 0038 4C0F0740 		.word	1074204492
+  77 003c 64000740 		.word	1074200676
+  78 0040 00000000 		.word	.LANCHOR0
+  79 0044 00000000 		.word	I2C_slRdBufSize
+  80 0048 00000000 		.word	I2C_slRdBufIndex
+  81              		.cfi_endproc
+  82              	.LFE5:
+  83              		.size	I2C_I2CResposeInsert, .-I2C_I2CResposeInsert
+  84              		.section	.text.I2C_I2CCyBtldrCommStart,"ax",%progbits
+  85              		.align	1
+  86              		.global	I2C_I2CCyBtldrCommStart
+  87              		.code	16
+  88              		.thumb_func
+  89              		.type	I2C_I2CCyBtldrCommStart, %function
+  90              	I2C_I2CCyBtldrCommStart:
+  91              	.LFB0:
+  61:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_I2CSlaveInitWriteBuf(I2C_slWriteBuf, I2C_I2C_BTLDR_SIZEOF_WRITE_BUFFER);
+  92              		.loc 1 61 0
+  93              		.cfi_startproc
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96 0000 10B5     		push	{r4, lr}
+  97              		.cfi_def_cfa_offset 8
+  98              		.cfi_offset 4, -8
+  99              		.cfi_offset 14, -4
+  62:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_I2CSlaveInitReadBuf (I2C_slReadBuf, 0u);
+ 100              		.loc 1 62 0
+ 101 0002 094C     		ldr	r4, .L15
+ 102 0004 4021     		movs	r1, #64
+ 103 0006 201D     		adds	r0, r4, #4
+ 104 0008 FFF7FEFF 		bl	I2C_I2CSlaveInitWriteBuf
+ 105              	.LVL0:
+  63:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 106              		.loc 1 63 0
+ 107 000c 2000     		movs	r0, r4
+ 108 000e 0021     		movs	r1, #0
+ 109 0010 4430     		adds	r0, r0, #68
+ 110 0012 FFF7FEFF 		bl	I2C_I2CSlaveInitReadBuf
+ 111              	.LVL1:
+  65:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_applyBuffer = 0u;
+ 112              		.loc 1 65 0
+ 113 0016 0548     		ldr	r0, .L15+4
+ 114 0018 FFF7FEFF 		bl	I2C_SetCustomInterruptHandler
+ 115              	.LVL2:
+  66:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 116              		.loc 1 66 0
+ 117 001c 0023     		movs	r3, #0
+  69:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 118              		.loc 1 69 0
+ 119              		@ sp needed
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 8
+
+
+  66:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 120              		.loc 1 66 0
+ 121 001e 2360     		str	r3, [r4]
+  68:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+ 122              		.loc 1 68 0
+ 123 0020 FFF7FEFF 		bl	I2C_Start
+ 124              	.LVL3:
+  69:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 125              		.loc 1 69 0
+ 126 0024 10BD     		pop	{r4, pc}
+ 127              	.L16:
+ 128 0026 C046     		.align	2
+ 129              	.L15:
+ 130 0028 00000000 		.word	.LANCHOR0
+ 131 002c 00000000 		.word	I2C_I2CResposeInsert
+ 132              		.cfi_endproc
+ 133              	.LFE0:
+ 134              		.size	I2C_I2CCyBtldrCommStart, .-I2C_I2CCyBtldrCommStart
+ 135              		.section	.text.I2C_I2CCyBtldrCommStop,"ax",%progbits
+ 136              		.align	1
+ 137              		.global	I2C_I2CCyBtldrCommStop
+ 138              		.code	16
+ 139              		.thumb_func
+ 140              		.type	I2C_I2CCyBtldrCommStop, %function
+ 141              	I2C_I2CCyBtldrCommStop:
+ 142              	.LFB1:
+  80:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_Stop();
+ 143              		.loc 1 80 0
+ 144              		.cfi_startproc
+ 145              		@ args = 0, pretend = 0, frame = 0
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147 0000 10B5     		push	{r4, lr}
+ 148              		.cfi_def_cfa_offset 8
+ 149              		.cfi_offset 4, -8
+ 150              		.cfi_offset 14, -4
+  81:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+ 151              		.loc 1 81 0
+ 152 0002 FFF7FEFF 		bl	I2C_Stop
+ 153              	.LVL4:
+  82:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 154              		.loc 1 82 0
+ 155              		@ sp needed
+ 156 0006 10BD     		pop	{r4, pc}
+ 157              		.cfi_endproc
+ 158              	.LFE1:
+ 159              		.size	I2C_I2CCyBtldrCommStop, .-I2C_I2CCyBtldrCommStop
+ 160              		.section	.text.I2C_I2CCyBtldrCommReset,"ax",%progbits
+ 161              		.align	1
+ 162              		.global	I2C_I2CCyBtldrCommReset
+ 163              		.code	16
+ 164              		.thumb_func
+ 165              		.type	I2C_I2CCyBtldrCommReset, %function
+ 166              	I2C_I2CCyBtldrCommReset:
+ 167              	.LFB2:
+ 102:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     /* Make read buffer full */
+ 168              		.loc 1 102 0
+ 169              		.cfi_startproc
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 9
+
+
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ 172              		@ link register save eliminated.
+ 104:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 173              		.loc 1 104 0
+ 174 0000 0023     		movs	r3, #0
+ 175 0002 044A     		ldr	r2, .L19
+ 112:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 176              		.loc 1 112 0
+ 177              		@ sp needed
+ 104:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 178              		.loc 1 104 0
+ 179 0004 1360     		str	r3, [r2]
+ 107:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     I2C_slWrBufIndex = 0u;
+ 180              		.loc 1 107 0
+ 181 0006 044A     		ldr	r2, .L19+4
+ 182 0008 1360     		str	r3, [r2]
+ 108:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 183              		.loc 1 108 0
+ 184 000a 044A     		ldr	r2, .L19+8
+ 185 000c 1360     		str	r3, [r2]
+ 111:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** }
+ 186              		.loc 1 111 0
+ 187 000e 044A     		ldr	r2, .L19+12
+ 188 0010 1370     		strb	r3, [r2]
+ 112:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 189              		.loc 1 112 0
+ 190 0012 7047     		bx	lr
+ 191              	.L20:
+ 192              		.align	2
+ 193              	.L19:
+ 194 0014 00000000 		.word	I2C_slRdBufSize
+ 195 0018 00000000 		.word	I2C_slRdBufIndex
+ 196 001c 00000000 		.word	I2C_slWrBufIndex
+ 197 0020 00000000 		.word	I2C_slStatus
+ 198              		.cfi_endproc
+ 199              	.LFE2:
+ 200              		.size	I2C_I2CCyBtldrCommReset, .-I2C_I2CCyBtldrCommReset
+ 201              		.section	.text.I2C_I2CCyBtldrCommRead,"ax",%progbits
+ 202              		.align	1
+ 203              		.global	I2C_I2CCyBtldrCommRead
+ 204              		.code	16
+ 205              		.thumb_func
+ 206              		.type	I2C_I2CCyBtldrCommRead, %function
+ 207              	I2C_I2CCyBtldrCommRead:
+ 208              	.LFB3:
+ 144:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     cystatus status;
+ 209              		.loc 1 144 0
+ 210              		.cfi_startproc
+ 211              		@ args = 0, pretend = 0, frame = 8
+ 212              		@ frame_needed = 0, uses_anonymous_args = 0
+ 213              	.LVL5:
+ 214 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 215              		.cfi_def_cfa_offset 32
+ 216              		.cfi_offset 0, -32
+ 217              		.cfi_offset 1, -28
+ 218              		.cfi_offset 2, -24
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 10
+
+
+ 219              		.cfi_offset 4, -20
+ 220              		.cfi_offset 5, -16
+ 221              		.cfi_offset 6, -12
+ 222              		.cfi_offset 7, -8
+ 223              		.cfi_offset 14, -4
+ 144:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     cystatus status;
+ 224              		.loc 1 144 0
+ 225 0002 0600     		movs	r6, r0
+ 226 0004 0D00     		movs	r5, r1
+ 227 0006 0192     		str	r2, [sp, #4]
+ 148:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 228              		.loc 1 148 0
+ 229 0008 0120     		movs	r0, #1
+ 230              	.LVL6:
+ 150:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     {
+ 231              		.loc 1 150 0
+ 232 000a 002E     		cmp	r6, #0
+ 233 000c 24D0     		beq	.L22
+ 150:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     {
+ 234              		.loc 1 150 0 is_stmt 0 discriminator 1
+ 235 000e 0029     		cmp	r1, #0
+ 236 0010 22D0     		beq	.L22
+ 237              	.LVL7:
+ 153:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 238              		.loc 1 153 0 is_stmt 1
+ 239 0012 0A24     		movs	r4, #10
+ 240 0014 1027     		movs	r7, #16
+ 241 0016 5C43     		muls	r4, r3
+ 242              	.LVL8:
+ 243              	.L23:
+ 155:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         {
+ 244              		.loc 1 155 0
+ 245 0018 002C     		cmp	r4, #0
+ 246 001a 1CD0     		beq	.L30
+ 158:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             {
+ 247              		.loc 1 158 0
+ 248 001c 0F48     		ldr	r0, .L31
+ 249 001e 0378     		ldrb	r3, [r0]
+ 250 0020 3B42     		tst	r3, r7
+ 251 0022 13D0     		beq	.L24
+ 161:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 252              		.loc 1 161 0
+ 253 0024 0E4A     		ldr	r2, .L31+4
+ 254 0026 0199     		ldr	r1, [sp, #4]
+ 255 0028 1368     		ldr	r3, [r2]
+ 256 002a 9BB2     		uxth	r3, r3
+ 257 002c 0B80     		strh	r3, [r1]
+ 164:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 I2C_slWrBufIndex = 0u;
+ 258              		.loc 1 164 0
+ 259 002e 0021     		movs	r1, #0
+ 260 0030 0170     		strb	r1, [r0]
+ 165:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 261              		.loc 1 165 0
+ 262 0032 1160     		str	r1, [r2]
+ 168:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                                               I2C_BYTES_TO_COPY(*count, size));
+ 263              		.loc 1 168 0
+ 264 0034 2A1C     		adds	r2, r5, #0
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 11
+
+
+ 265 0036 9D42     		cmp	r5, r3
+ 266 0038 00D9     		bls	.L25
+ 267 003a 1A1C     		adds	r2, r3, #0
+ 268              	.L25:
+ 269 003c 0949     		ldr	r1, .L31+8
+ 270 003e 92B2     		uxth	r2, r2
+ 271 0040 0431     		adds	r1, r1, #4
+ 272 0042 3000     		movs	r0, r6
+ 273 0044 FFF7FEFF 		bl	memcpy
+ 274              	.LVL9:
+ 171:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****                 break;
+ 275              		.loc 1 171 0
+ 276 0048 0020     		movs	r0, #0
+ 172:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             }
+ 277              		.loc 1 172 0
+ 278 004a 05E0     		b	.L22
+ 279              	.LVL10:
+ 280              	.L24:
+ 175:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****             --timeoutMs;
+ 281              		.loc 1 175 0
+ 282 004c 0120     		movs	r0, #1
+ 283 004e FFF7FEFF 		bl	CyDelay
+ 284              	.LVL11:
+ 176:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         }
+ 285              		.loc 1 176 0
+ 286 0052 013C     		subs	r4, r4, #1
+ 287              	.LVL12:
+ 288 0054 E0E7     		b	.L23
+ 289              	.L30:
+ 152:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         timeoutMs = ((uint32) 10u * timeOut); /* Convert from 10mS check to 1mS checks */
+ 290              		.loc 1 152 0
+ 291 0056 1020     		movs	r0, #16
+ 292              	.LVL13:
+ 293              	.L22:
+ 181:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 294              		.loc 1 181 0
+ 295              		@ sp needed
+ 296              	.LVL14:
+ 297 0058 FEBD     		pop	{r1, r2, r3, r4, r5, r6, r7, pc}
+ 298              	.L32:
+ 299 005a C046     		.align	2
+ 300              	.L31:
+ 301 005c 00000000 		.word	I2C_slStatus
+ 302 0060 00000000 		.word	I2C_slWrBufIndex
+ 303 0064 00000000 		.word	.LANCHOR0
+ 304              		.cfi_endproc
+ 305              	.LFE3:
+ 306              		.size	I2C_I2CCyBtldrCommRead, .-I2C_I2CCyBtldrCommRead
+ 307              		.section	.text.I2C_I2CCyBtldrCommWrite,"ax",%progbits
+ 308              		.align	1
+ 309              		.global	I2C_I2CCyBtldrCommWrite
+ 310              		.code	16
+ 311              		.thumb_func
+ 312              		.type	I2C_I2CCyBtldrCommWrite, %function
+ 313              	I2C_I2CCyBtldrCommWrite:
+ 314              	.LFB4:
+ 212:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     cystatus status;
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 12
+
+
+ 315              		.loc 1 212 0
+ 316              		.cfi_startproc
+ 317              		@ args = 0, pretend = 0, frame = 0
+ 318              		@ frame_needed = 0, uses_anonymous_args = 0
+ 319              	.LVL15:
+ 320 0000 70B5     		push	{r4, r5, r6, lr}
+ 321              		.cfi_def_cfa_offset 16
+ 322              		.cfi_offset 4, -16
+ 323              		.cfi_offset 5, -12
+ 324              		.cfi_offset 6, -8
+ 325              		.cfi_offset 14, -4
+ 215:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 326              		.loc 1 215 0
+ 327 0002 0123     		movs	r3, #1
+ 328              	.LVL16:
+ 212:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     cystatus status;
+ 329              		.loc 1 212 0
+ 330 0004 0C00     		movs	r4, r1
+ 217:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     {
+ 331              		.loc 1 217 0
+ 332 0006 0028     		cmp	r0, #0
+ 333 0008 0CD0     		beq	.L34
+ 217:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     {
+ 334              		.loc 1 217 0 is_stmt 0 discriminator 1
+ 335 000a 0029     		cmp	r1, #0
+ 336 000c 0AD0     		beq	.L34
+ 221:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 337              		.loc 1 221 0 is_stmt 1
+ 338 000e 064D     		ldr	r5, .L38
+ 220:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****         (void) memcpy((void *) I2C_slReadBuf, (const void *) pData, (uint32) size);
+ 339              		.loc 1 220 0
+ 340 0010 1180     		strh	r1, [r2]
+ 221:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 341              		.loc 1 221 0
+ 342 0012 2B00     		movs	r3, r5
+ 343 0014 4433     		adds	r3, r3, #68
+ 344 0016 0A00     		movs	r2, r1
+ 345              	.LVL17:
+ 346 0018 0100     		movs	r1, r0
+ 347              	.LVL18:
+ 348 001a 1800     		movs	r0, r3
+ 349              	.LVL19:
+ 350 001c FFF7FEFF 		bl	memcpy
+ 351              	.LVL20:
+ 231:Generated_Source\PSoC4/I2C_I2C_BOOT.c ****     }
+ 352              		.loc 1 231 0
+ 353 0020 0023     		movs	r3, #0
+ 224:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 354              		.loc 1 224 0
+ 355 0022 2C60     		str	r4, [r5]
+ 356              	.LVL21:
+ 357              	.L34:
+ 235:Generated_Source\PSoC4/I2C_I2C_BOOT.c **** 
+ 358              		.loc 1 235 0
+ 359 0024 1800     		movs	r0, r3
+ 360              		@ sp needed
+ 361 0026 70BD     		pop	{r4, r5, r6, pc}
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 13
+
+
+ 362              	.L39:
+ 363              		.align	2
+ 364              	.L38:
+ 365 0028 00000000 		.word	.LANCHOR0
+ 366              		.cfi_endproc
+ 367              	.LFE4:
+ 368              		.size	I2C_I2CCyBtldrCommWrite, .-I2C_I2CCyBtldrCommWrite
+ 369              		.bss
+ 370              		.align	2
+ 371              		.set	.LANCHOR0,. + 0
+ 372              		.type	I2C_applyBuffer, %object
+ 373              		.size	I2C_applyBuffer, 4
+ 374              	I2C_applyBuffer:
+ 375 0000 00000000 		.space	4
+ 376              		.type	I2C_slWriteBuf, %object
+ 377              		.size	I2C_slWriteBuf, 64
+ 378              	I2C_slWriteBuf:
+ 379 0004 00000000 		.space	64
+ 379      00000000 
+ 379      00000000 
+ 379      00000000 
+ 379      00000000 
+ 380              		.type	I2C_slReadBuf, %object
+ 381              		.size	I2C_slReadBuf, 64
+ 382              	I2C_slReadBuf:
+ 383 0044 00000000 		.space	64
+ 383      00000000 
+ 383      00000000 
+ 383      00000000 
+ 383      00000000 
+ 384              		.text
+ 385              	.Letext0:
+ 386              		.file 2 "Generated_Source\\PSoC4/cytypes.h"
+ 387              		.file 3 "Generated_Source\\PSoC4\\I2C_I2C_PVT.h"
+ 388              		.file 4 "Generated_Source\\PSoC4\\I2C_I2C.h"
+ 389              		.file 5 "Generated_Source\\PSoC4\\I2C.h"
+ 390              		.file 6 "Generated_Source\\PSoC4/CyLib.h"
+ 391              		.section	.debug_info,"",%progbits
+ 392              	.Ldebug_info0:
+ 393 0000 78030000 		.4byte	0x378
+ 394 0004 0400     		.2byte	0x4
+ 395 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 396 000a 04       		.byte	0x4
+ 397 000b 01       		.uleb128 0x1
+ 398 000c B0020000 		.4byte	.LASF42
+ 399 0010 0C       		.byte	0xc
+ 400 0011 7E000000 		.4byte	.LASF43
+ 401 0015 0F000000 		.4byte	.LASF44
+ 402 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 403 001d 00000000 		.4byte	0
+ 404 0021 00000000 		.4byte	.Ldebug_line0
+ 405 0025 02       		.uleb128 0x2
+ 406 0026 01       		.byte	0x1
+ 407 0027 06       		.byte	0x6
+ 408 0028 A4020000 		.4byte	.LASF0
+ 409 002c 02       		.uleb128 0x2
+ 410 002d 01       		.byte	0x1
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 14
+
+
+ 411 002e 08       		.byte	0x8
+ 412 002f 52010000 		.4byte	.LASF1
+ 413 0033 02       		.uleb128 0x2
+ 414 0034 02       		.byte	0x2
+ 415 0035 05       		.byte	0x5
+ 416 0036 5A020000 		.4byte	.LASF2
+ 417 003a 02       		.uleb128 0x2
+ 418 003b 02       		.byte	0x2
+ 419 003c 07       		.byte	0x7
+ 420 003d A4000000 		.4byte	.LASF3
+ 421 0041 02       		.uleb128 0x2
+ 422 0042 04       		.byte	0x4
+ 423 0043 05       		.byte	0x5
+ 424 0044 7D020000 		.4byte	.LASF4
+ 425 0048 02       		.uleb128 0x2
+ 426 0049 04       		.byte	0x4
+ 427 004a 07       		.byte	0x7
+ 428 004b 2A010000 		.4byte	.LASF5
+ 429 004f 02       		.uleb128 0x2
+ 430 0050 08       		.byte	0x8
+ 431 0051 05       		.byte	0x5
+ 432 0052 1F020000 		.4byte	.LASF6
+ 433 0056 02       		.uleb128 0x2
+ 434 0057 08       		.byte	0x8
+ 435 0058 07       		.byte	0x7
+ 436 0059 BA010000 		.4byte	.LASF7
+ 437 005d 03       		.uleb128 0x3
+ 438 005e 04       		.byte	0x4
+ 439 005f 05       		.byte	0x5
+ 440 0060 696E7400 		.ascii	"int\000"
+ 441 0064 02       		.uleb128 0x2
+ 442 0065 04       		.byte	0x4
+ 443 0066 07       		.byte	0x7
+ 444 0067 AD010000 		.4byte	.LASF8
+ 445 006b 04       		.uleb128 0x4
+ 446 006c 3C010000 		.4byte	.LASF9
+ 447 0070 02       		.byte	0x2
+ 448 0071 E401     		.2byte	0x1e4
+ 449 0073 2C000000 		.4byte	0x2c
+ 450 0077 04       		.uleb128 0x4
+ 451 0078 96010000 		.4byte	.LASF10
+ 452 007c 02       		.byte	0x2
+ 453 007d E501     		.2byte	0x1e5
+ 454 007f 3A000000 		.4byte	0x3a
+ 455 0083 04       		.uleb128 0x4
+ 456 0084 A6010000 		.4byte	.LASF11
+ 457 0088 02       		.byte	0x2
+ 458 0089 E601     		.2byte	0x1e6
+ 459 008b 48000000 		.4byte	0x48
+ 460 008f 02       		.uleb128 0x2
+ 461 0090 04       		.byte	0x4
+ 462 0091 04       		.byte	0x4
+ 463 0092 FA000000 		.4byte	.LASF12
+ 464 0096 02       		.uleb128 0x2
+ 465 0097 08       		.byte	0x8
+ 466 0098 04       		.byte	0x4
+ 467 0099 60010000 		.4byte	.LASF13
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 15
+
+
+ 468 009d 02       		.uleb128 0x2
+ 469 009e 01       		.byte	0x1
+ 470 009f 08       		.byte	0x8
+ 471 00a0 86020000 		.4byte	.LASF14
+ 472 00a4 04       		.uleb128 0x4
+ 473 00a5 9D010000 		.4byte	.LASF15
+ 474 00a9 02       		.byte	0x2
+ 475 00aa 8602     		.2byte	0x286
+ 476 00ac 48000000 		.4byte	0x48
+ 477 00b0 05       		.uleb128 0x5
+ 478 00b1 6B000000 		.4byte	0x6b
+ 479 00b5 04       		.uleb128 0x4
+ 480 00b6 51000000 		.4byte	.LASF16
+ 481 00ba 02       		.byte	0x2
+ 482 00bb 9002     		.2byte	0x290
+ 483 00bd C1000000 		.4byte	0xc1
+ 484 00c1 05       		.uleb128 0x5
+ 485 00c2 83000000 		.4byte	0x83
+ 486 00c6 02       		.uleb128 0x2
+ 487 00c7 08       		.byte	0x8
+ 488 00c8 04       		.byte	0x4
+ 489 00c9 F2010000 		.4byte	.LASF17
+ 490 00cd 02       		.uleb128 0x2
+ 491 00ce 04       		.byte	0x4
+ 492 00cf 07       		.byte	0x7
+ 493 00d0 FE010000 		.4byte	.LASF18
+ 494 00d4 06       		.uleb128 0x6
+ 495 00d5 CE000000 		.4byte	.LASF45
+ 496 00d9 01       		.byte	0x1
+ 497 00da FB       		.byte	0xfb
+ 498 00db 01       		.byte	0x1
+ 499 00dc 07       		.uleb128 0x7
+ 500 00dd D4000000 		.4byte	0xd4
+ 501 00e1 00000000 		.4byte	.LFB5
+ 502 00e5 4C000000 		.4byte	.LFE5-.LFB5
+ 503 00e9 01       		.uleb128 0x1
+ 504 00ea 9C       		.byte	0x9c
+ 505 00eb 08       		.uleb128 0x8
+ 506 00ec 07020000 		.4byte	.LASF19
+ 507 00f0 01       		.byte	0x1
+ 508 00f1 3C       		.byte	0x3c
+ 509 00f2 00000000 		.4byte	.LFB0
+ 510 00f6 30000000 		.4byte	.LFE0-.LFB0
+ 511 00fa 01       		.uleb128 0x1
+ 512 00fb 9C       		.byte	0x9c
+ 513 00fc 55010000 		.4byte	0x155
+ 514 0100 09       		.uleb128 0x9
+ 515 0101 0C000000 		.4byte	.LVL0
+ 516 0105 2E030000 		.4byte	0x32e
+ 517 0109 1A010000 		.4byte	0x11a
+ 518 010d 0A       		.uleb128 0xa
+ 519 010e 01       		.uleb128 0x1
+ 520 010f 50       		.byte	0x50
+ 521 0110 02       		.uleb128 0x2
+ 522 0111 74       		.byte	0x74
+ 523 0112 04       		.sleb128 4
+ 524 0113 0A       		.uleb128 0xa
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 16
+
+
+ 525 0114 01       		.uleb128 0x1
+ 526 0115 51       		.byte	0x51
+ 527 0116 02       		.uleb128 0x2
+ 528 0117 08       		.byte	0x8
+ 529 0118 40       		.byte	0x40
+ 530 0119 00       		.byte	0
+ 531 011a 09       		.uleb128 0x9
+ 532 011b 16000000 		.4byte	.LVL1
+ 533 011f 3A030000 		.4byte	0x33a
+ 534 0123 34010000 		.4byte	0x134
+ 535 0127 0A       		.uleb128 0xa
+ 536 0128 01       		.uleb128 0x1
+ 537 0129 50       		.byte	0x50
+ 538 012a 03       		.uleb128 0x3
+ 539 012b 74       		.byte	0x74
+ 540 012c C400     		.sleb128 68
+ 541 012e 0A       		.uleb128 0xa
+ 542 012f 01       		.uleb128 0x1
+ 543 0130 51       		.byte	0x51
+ 544 0131 01       		.uleb128 0x1
+ 545 0132 30       		.byte	0x30
+ 546 0133 00       		.byte	0
+ 547 0134 09       		.uleb128 0x9
+ 548 0135 1C000000 		.4byte	.LVL2
+ 549 0139 46030000 		.4byte	0x346
+ 550 013d 4B010000 		.4byte	0x14b
+ 551 0141 0A       		.uleb128 0xa
+ 552 0142 01       		.uleb128 0x1
+ 553 0143 50       		.byte	0x50
+ 554 0144 05       		.uleb128 0x5
+ 555 0145 03       		.byte	0x3
+ 556 0146 00000000 		.4byte	I2C_I2CResposeInsert
+ 557 014a 00       		.byte	0
+ 558 014b 0B       		.uleb128 0xb
+ 559 014c 24000000 		.4byte	.LVL3
+ 560 0150 51030000 		.4byte	0x351
+ 561 0154 00       		.byte	0
+ 562 0155 08       		.uleb128 0x8
+ 563 0156 61000000 		.4byte	.LASF20
+ 564 015a 01       		.byte	0x1
+ 565 015b 4F       		.byte	0x4f
+ 566 015c 00000000 		.4byte	.LFB1
+ 567 0160 08000000 		.4byte	.LFE1-.LFB1
+ 568 0164 01       		.uleb128 0x1
+ 569 0165 9C       		.byte	0x9c
+ 570 0166 74010000 		.4byte	0x174
+ 571 016a 0B       		.uleb128 0xb
+ 572 016b 06000000 		.4byte	.LVL4
+ 573 016f 5C030000 		.4byte	0x35c
+ 574 0173 00       		.byte	0
+ 575 0174 0C       		.uleb128 0xc
+ 576 0175 12010000 		.4byte	.LASF46
+ 577 0179 01       		.byte	0x1
+ 578 017a 65       		.byte	0x65
+ 579 017b 00000000 		.4byte	.LFB2
+ 580 017f 24000000 		.4byte	.LFE2-.LFB2
+ 581 0183 01       		.uleb128 0x1
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 17
+
+
+ 582 0184 9C       		.byte	0x9c
+ 583 0185 0D       		.uleb128 0xd
+ 584 0186 B7000000 		.4byte	.LASF27
+ 585 018a 01       		.byte	0x1
+ 586 018b 8F       		.byte	0x8f
+ 587 018c A4000000 		.4byte	0xa4
+ 588 0190 00000000 		.4byte	.LFB3
+ 589 0194 68000000 		.4byte	.LFE3-.LFB3
+ 590 0198 01       		.uleb128 0x1
+ 591 0199 9C       		.byte	0x9c
+ 592 019a 25020000 		.4byte	0x225
+ 593 019e 0E       		.uleb128 0xe
+ 594 019f F4000000 		.4byte	.LASF21
+ 595 01a3 01       		.byte	0x1
+ 596 01a4 8F       		.byte	0x8f
+ 597 01a5 25020000 		.4byte	0x225
+ 598 01a9 00000000 		.4byte	.LLST0
+ 599 01ad 0E       		.uleb128 0xe
+ 600 01ae 0D010000 		.4byte	.LASF22
+ 601 01b2 01       		.byte	0x1
+ 602 01b3 8F       		.byte	0x8f
+ 603 01b4 77000000 		.4byte	0x77
+ 604 01b8 2C000000 		.4byte	.LLST1
+ 605 01bc 0E       		.uleb128 0xe
+ 606 01bd 78000000 		.4byte	.LASF23
+ 607 01c1 01       		.byte	0x1
+ 608 01c2 8F       		.byte	0x8f
+ 609 01c3 2B020000 		.4byte	0x22b
+ 610 01c7 4D000000 		.4byte	.LLST2
+ 611 01cb 0E       		.uleb128 0xe
+ 612 01cc D1010000 		.4byte	.LASF24
+ 613 01d0 01       		.byte	0x1
+ 614 01d1 8F       		.byte	0x8f
+ 615 01d2 6B000000 		.4byte	0x6b
+ 616 01d6 6C000000 		.4byte	.LLST3
+ 617 01da 0F       		.uleb128 0xf
+ 618 01db E3000000 		.4byte	.LASF25
+ 619 01df 01       		.byte	0x1
+ 620 01e0 91       		.byte	0x91
+ 621 01e1 A4000000 		.4byte	0xa4
+ 622 01e5 8D000000 		.4byte	.LLST4
+ 623 01e9 0F       		.uleb128 0xf
+ 624 01ea 57000000 		.4byte	.LASF26
+ 625 01ee 01       		.byte	0x1
+ 626 01ef 92       		.byte	0x92
+ 627 01f0 83000000 		.4byte	0x83
+ 628 01f4 D0000000 		.4byte	.LLST5
+ 629 01f8 09       		.uleb128 0x9
+ 630 01f9 48000000 		.4byte	.LVL9
+ 631 01fd 67030000 		.4byte	0x367
+ 632 0201 15020000 		.4byte	0x215
+ 633 0205 0A       		.uleb128 0xa
+ 634 0206 01       		.uleb128 0x1
+ 635 0207 50       		.byte	0x50
+ 636 0208 02       		.uleb128 0x2
+ 637 0209 76       		.byte	0x76
+ 638 020a 00       		.sleb128 0
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 18
+
+
+ 639 020b 0A       		.uleb128 0xa
+ 640 020c 01       		.uleb128 0x1
+ 641 020d 51       		.byte	0x51
+ 642 020e 05       		.uleb128 0x5
+ 643 020f 03       		.byte	0x3
+ 644 0210 04000000 		.4byte	.LANCHOR0+4
+ 645 0214 00       		.byte	0
+ 646 0215 10       		.uleb128 0x10
+ 647 0216 52000000 		.4byte	.LVL11
+ 648 021a 70030000 		.4byte	0x370
+ 649 021e 0A       		.uleb128 0xa
+ 650 021f 01       		.uleb128 0x1
+ 651 0220 50       		.byte	0x50
+ 652 0221 01       		.uleb128 0x1
+ 653 0222 31       		.byte	0x31
+ 654 0223 00       		.byte	0
+ 655 0224 00       		.byte	0
+ 656 0225 11       		.uleb128 0x11
+ 657 0226 04       		.byte	0x4
+ 658 0227 6B000000 		.4byte	0x6b
+ 659 022b 11       		.uleb128 0x11
+ 660 022c 04       		.byte	0x4
+ 661 022d 77000000 		.4byte	0x77
+ 662 0231 0D       		.uleb128 0xd
+ 663 0232 3E030000 		.4byte	.LASF28
+ 664 0236 01       		.byte	0x1
+ 665 0237 D3       		.byte	0xd3
+ 666 0238 A4000000 		.4byte	0xa4
+ 667 023c 00000000 		.4byte	.LFB4
+ 668 0240 2C000000 		.4byte	.LFE4-.LFB4
+ 669 0244 01       		.uleb128 0x1
+ 670 0245 9C       		.byte	0x9c
+ 671 0246 B4020000 		.4byte	0x2b4
+ 672 024a 0E       		.uleb128 0xe
+ 673 024b F4000000 		.4byte	.LASF21
+ 674 024f 01       		.byte	0x1
+ 675 0250 D3       		.byte	0xd3
+ 676 0251 B4020000 		.4byte	0x2b4
+ 677 0255 E3000000 		.4byte	.LLST6
+ 678 0259 0E       		.uleb128 0xe
+ 679 025a 0D010000 		.4byte	.LASF22
+ 680 025e 01       		.byte	0x1
+ 681 025f D3       		.byte	0xd3
+ 682 0260 77000000 		.4byte	0x77
+ 683 0264 0F010000 		.4byte	.LLST7
+ 684 0268 0E       		.uleb128 0xe
+ 685 0269 78000000 		.4byte	.LASF23
+ 686 026d 01       		.byte	0x1
+ 687 026e D3       		.byte	0xd3
+ 688 026f 2B020000 		.4byte	0x22b
+ 689 0273 3D010000 		.4byte	.LLST8
+ 690 0277 0E       		.uleb128 0xe
+ 691 0278 D1010000 		.4byte	.LASF24
+ 692 027c 01       		.byte	0x1
+ 693 027d D3       		.byte	0xd3
+ 694 027e 6B000000 		.4byte	0x6b
+ 695 0282 5E010000 		.4byte	.LLST9
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 19
+
+
+ 696 0286 0F       		.uleb128 0xf
+ 697 0287 E3000000 		.4byte	.LASF25
+ 698 028b 01       		.byte	0x1
+ 699 028c D5       		.byte	0xd5
+ 700 028d A4000000 		.4byte	0xa4
+ 701 0291 7F010000 		.4byte	.LLST10
+ 702 0295 10       		.uleb128 0x10
+ 703 0296 20000000 		.4byte	.LVL20
+ 704 029a 67030000 		.4byte	0x367
+ 705 029e 0A       		.uleb128 0xa
+ 706 029f 01       		.uleb128 0x1
+ 707 02a0 50       		.byte	0x50
+ 708 02a1 03       		.uleb128 0x3
+ 709 02a2 75       		.byte	0x75
+ 710 02a3 C400     		.sleb128 68
+ 711 02a5 0A       		.uleb128 0xa
+ 712 02a6 01       		.uleb128 0x1
+ 713 02a7 51       		.byte	0x51
+ 714 02a8 03       		.uleb128 0x3
+ 715 02a9 F3       		.byte	0xf3
+ 716 02aa 01       		.uleb128 0x1
+ 717 02ab 50       		.byte	0x50
+ 718 02ac 0A       		.uleb128 0xa
+ 719 02ad 01       		.uleb128 0x1
+ 720 02ae 52       		.byte	0x52
+ 721 02af 02       		.uleb128 0x2
+ 722 02b0 74       		.byte	0x74
+ 723 02b1 00       		.sleb128 0
+ 724 02b2 00       		.byte	0
+ 725 02b3 00       		.byte	0
+ 726 02b4 11       		.uleb128 0x11
+ 727 02b5 04       		.byte	0x4
+ 728 02b6 BA020000 		.4byte	0x2ba
+ 729 02ba 12       		.uleb128 0x12
+ 730 02bb 6B000000 		.4byte	0x6b
+ 731 02bf 13       		.uleb128 0x13
+ 732 02c0 6B000000 		.4byte	0x6b
+ 733 02c4 CF020000 		.4byte	0x2cf
+ 734 02c8 14       		.uleb128 0x14
+ 735 02c9 CD000000 		.4byte	0xcd
+ 736 02cd 3F       		.byte	0x3f
+ 737 02ce 00       		.byte	0
+ 738 02cf 15       		.uleb128 0x15
+ 739 02d0 2D020000 		.4byte	.LASF29
+ 740 02d4 01       		.byte	0x1
+ 741 02d5 1D       		.byte	0x1d
+ 742 02d6 BF020000 		.4byte	0x2bf
+ 743 02da 05       		.uleb128 0x5
+ 744 02db 03       		.byte	0x3
+ 745 02dc 44000000 		.4byte	I2C_slReadBuf
+ 746 02e0 15       		.uleb128 0x15
+ 747 02e1 00000000 		.4byte	.LASF30
+ 748 02e5 01       		.byte	0x1
+ 749 02e6 20       		.byte	0x20
+ 750 02e7 BF020000 		.4byte	0x2bf
+ 751 02eb 05       		.uleb128 0x5
+ 752 02ec 03       		.byte	0x3
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 20
+
+
+ 753 02ed 04000000 		.4byte	I2C_slWriteBuf
+ 754 02f1 15       		.uleb128 0x15
+ 755 02f2 8B020000 		.4byte	.LASF31
+ 756 02f6 01       		.byte	0x1
+ 757 02f7 23       		.byte	0x23
+ 758 02f8 83000000 		.4byte	0x83
+ 759 02fc 05       		.uleb128 0x5
+ 760 02fd 03       		.byte	0x3
+ 761 02fe 00000000 		.4byte	I2C_applyBuffer
+ 762 0302 16       		.uleb128 0x16
+ 763 0303 00010000 		.4byte	.LASF32
+ 764 0307 03       		.byte	0x3
+ 765 0308 21       		.byte	0x21
+ 766 0309 B0000000 		.4byte	0xb0
+ 767 030d 16       		.uleb128 0x16
+ 768 030e 67010000 		.4byte	.LASF33
+ 769 0312 03       		.byte	0x3
+ 770 0313 26       		.byte	0x26
+ 771 0314 C1000000 		.4byte	0xc1
+ 772 0318 16       		.uleb128 0x16
+ 773 0319 42010000 		.4byte	.LASF34
+ 774 031d 03       		.byte	0x3
+ 775 031e 2A       		.byte	0x2a
+ 776 031f C1000000 		.4byte	0xc1
+ 777 0323 16       		.uleb128 0x16
+ 778 0324 64020000 		.4byte	.LASF35
+ 779 0328 03       		.byte	0x3
+ 780 0329 2B       		.byte	0x2b
+ 781 032a C1000000 		.4byte	0xc1
+ 782 032e 17       		.uleb128 0x17
+ 783 032f D9010000 		.4byte	.LASF36
+ 784 0333 D9010000 		.4byte	.LASF36
+ 785 0337 04       		.byte	0x4
+ 786 0338 2F01     		.2byte	0x12f
+ 787 033a 17       		.uleb128 0x17
+ 788 033b 42020000 		.4byte	.LASF37
+ 789 033f 42020000 		.4byte	.LASF37
+ 790 0343 04       		.byte	0x4
+ 791 0344 2E01     		.2byte	0x12e
+ 792 0346 18       		.uleb128 0x18
+ 793 0347 78010000 		.4byte	.LASF38
+ 794 034b 78010000 		.4byte	.LASF38
+ 795 034f 05       		.byte	0x5
+ 796 0350 86       		.byte	0x86
+ 797 0351 18       		.uleb128 0x18
+ 798 0352 EA000000 		.4byte	.LASF39
+ 799 0356 EA000000 		.4byte	.LASF39
+ 800 035a 05       		.byte	0x5
+ 801 035b 72       		.byte	0x72
+ 802 035c 18       		.uleb128 0x18
+ 803 035d 9B020000 		.4byte	.LASF40
+ 804 0361 9B020000 		.4byte	.LASF40
+ 805 0365 05       		.byte	0x5
+ 806 0366 73       		.byte	0x73
+ 807 0367 19       		.uleb128 0x19
+ 808 0368 3B020000 		.4byte	.LASF47
+ 809 036c 3B020000 		.4byte	.LASF47
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 21
+
+
+ 810 0370 18       		.uleb128 0x18
+ 811 0371 75020000 		.4byte	.LASF41
+ 812 0375 75020000 		.4byte	.LASF41
+ 813 0379 06       		.byte	0x6
+ 814 037a D9       		.byte	0xd9
+ 815 037b 00       		.byte	0
+ 816              		.section	.debug_abbrev,"",%progbits
+ 817              	.Ldebug_abbrev0:
+ 818 0000 01       		.uleb128 0x1
+ 819 0001 11       		.uleb128 0x11
+ 820 0002 01       		.byte	0x1
+ 821 0003 25       		.uleb128 0x25
+ 822 0004 0E       		.uleb128 0xe
+ 823 0005 13       		.uleb128 0x13
+ 824 0006 0B       		.uleb128 0xb
+ 825 0007 03       		.uleb128 0x3
+ 826 0008 0E       		.uleb128 0xe
+ 827 0009 1B       		.uleb128 0x1b
+ 828 000a 0E       		.uleb128 0xe
+ 829 000b 55       		.uleb128 0x55
+ 830 000c 17       		.uleb128 0x17
+ 831 000d 11       		.uleb128 0x11
+ 832 000e 01       		.uleb128 0x1
+ 833 000f 10       		.uleb128 0x10
+ 834 0010 17       		.uleb128 0x17
+ 835 0011 00       		.byte	0
+ 836 0012 00       		.byte	0
+ 837 0013 02       		.uleb128 0x2
+ 838 0014 24       		.uleb128 0x24
+ 839 0015 00       		.byte	0
+ 840 0016 0B       		.uleb128 0xb
+ 841 0017 0B       		.uleb128 0xb
+ 842 0018 3E       		.uleb128 0x3e
+ 843 0019 0B       		.uleb128 0xb
+ 844 001a 03       		.uleb128 0x3
+ 845 001b 0E       		.uleb128 0xe
+ 846 001c 00       		.byte	0
+ 847 001d 00       		.byte	0
+ 848 001e 03       		.uleb128 0x3
+ 849 001f 24       		.uleb128 0x24
+ 850 0020 00       		.byte	0
+ 851 0021 0B       		.uleb128 0xb
+ 852 0022 0B       		.uleb128 0xb
+ 853 0023 3E       		.uleb128 0x3e
+ 854 0024 0B       		.uleb128 0xb
+ 855 0025 03       		.uleb128 0x3
+ 856 0026 08       		.uleb128 0x8
+ 857 0027 00       		.byte	0
+ 858 0028 00       		.byte	0
+ 859 0029 04       		.uleb128 0x4
+ 860 002a 16       		.uleb128 0x16
+ 861 002b 00       		.byte	0
+ 862 002c 03       		.uleb128 0x3
+ 863 002d 0E       		.uleb128 0xe
+ 864 002e 3A       		.uleb128 0x3a
+ 865 002f 0B       		.uleb128 0xb
+ 866 0030 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 22
+
+
+ 867 0031 05       		.uleb128 0x5
+ 868 0032 49       		.uleb128 0x49
+ 869 0033 13       		.uleb128 0x13
+ 870 0034 00       		.byte	0
+ 871 0035 00       		.byte	0
+ 872 0036 05       		.uleb128 0x5
+ 873 0037 35       		.uleb128 0x35
+ 874 0038 00       		.byte	0
+ 875 0039 49       		.uleb128 0x49
+ 876 003a 13       		.uleb128 0x13
+ 877 003b 00       		.byte	0
+ 878 003c 00       		.byte	0
+ 879 003d 06       		.uleb128 0x6
+ 880 003e 2E       		.uleb128 0x2e
+ 881 003f 00       		.byte	0
+ 882 0040 03       		.uleb128 0x3
+ 883 0041 0E       		.uleb128 0xe
+ 884 0042 3A       		.uleb128 0x3a
+ 885 0043 0B       		.uleb128 0xb
+ 886 0044 3B       		.uleb128 0x3b
+ 887 0045 0B       		.uleb128 0xb
+ 888 0046 27       		.uleb128 0x27
+ 889 0047 19       		.uleb128 0x19
+ 890 0048 20       		.uleb128 0x20
+ 891 0049 0B       		.uleb128 0xb
+ 892 004a 00       		.byte	0
+ 893 004b 00       		.byte	0
+ 894 004c 07       		.uleb128 0x7
+ 895 004d 2E       		.uleb128 0x2e
+ 896 004e 00       		.byte	0
+ 897 004f 31       		.uleb128 0x31
+ 898 0050 13       		.uleb128 0x13
+ 899 0051 11       		.uleb128 0x11
+ 900 0052 01       		.uleb128 0x1
+ 901 0053 12       		.uleb128 0x12
+ 902 0054 06       		.uleb128 0x6
+ 903 0055 40       		.uleb128 0x40
+ 904 0056 18       		.uleb128 0x18
+ 905 0057 9742     		.uleb128 0x2117
+ 906 0059 19       		.uleb128 0x19
+ 907 005a 00       		.byte	0
+ 908 005b 00       		.byte	0
+ 909 005c 08       		.uleb128 0x8
+ 910 005d 2E       		.uleb128 0x2e
+ 911 005e 01       		.byte	0x1
+ 912 005f 3F       		.uleb128 0x3f
+ 913 0060 19       		.uleb128 0x19
+ 914 0061 03       		.uleb128 0x3
+ 915 0062 0E       		.uleb128 0xe
+ 916 0063 3A       		.uleb128 0x3a
+ 917 0064 0B       		.uleb128 0xb
+ 918 0065 3B       		.uleb128 0x3b
+ 919 0066 0B       		.uleb128 0xb
+ 920 0067 27       		.uleb128 0x27
+ 921 0068 19       		.uleb128 0x19
+ 922 0069 11       		.uleb128 0x11
+ 923 006a 01       		.uleb128 0x1
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 23
+
+
+ 924 006b 12       		.uleb128 0x12
+ 925 006c 06       		.uleb128 0x6
+ 926 006d 40       		.uleb128 0x40
+ 927 006e 18       		.uleb128 0x18
+ 928 006f 9742     		.uleb128 0x2117
+ 929 0071 19       		.uleb128 0x19
+ 930 0072 01       		.uleb128 0x1
+ 931 0073 13       		.uleb128 0x13
+ 932 0074 00       		.byte	0
+ 933 0075 00       		.byte	0
+ 934 0076 09       		.uleb128 0x9
+ 935 0077 898201   		.uleb128 0x4109
+ 936 007a 01       		.byte	0x1
+ 937 007b 11       		.uleb128 0x11
+ 938 007c 01       		.uleb128 0x1
+ 939 007d 31       		.uleb128 0x31
+ 940 007e 13       		.uleb128 0x13
+ 941 007f 01       		.uleb128 0x1
+ 942 0080 13       		.uleb128 0x13
+ 943 0081 00       		.byte	0
+ 944 0082 00       		.byte	0
+ 945 0083 0A       		.uleb128 0xa
+ 946 0084 8A8201   		.uleb128 0x410a
+ 947 0087 00       		.byte	0
+ 948 0088 02       		.uleb128 0x2
+ 949 0089 18       		.uleb128 0x18
+ 950 008a 9142     		.uleb128 0x2111
+ 951 008c 18       		.uleb128 0x18
+ 952 008d 00       		.byte	0
+ 953 008e 00       		.byte	0
+ 954 008f 0B       		.uleb128 0xb
+ 955 0090 898201   		.uleb128 0x4109
+ 956 0093 00       		.byte	0
+ 957 0094 11       		.uleb128 0x11
+ 958 0095 01       		.uleb128 0x1
+ 959 0096 31       		.uleb128 0x31
+ 960 0097 13       		.uleb128 0x13
+ 961 0098 00       		.byte	0
+ 962 0099 00       		.byte	0
+ 963 009a 0C       		.uleb128 0xc
+ 964 009b 2E       		.uleb128 0x2e
+ 965 009c 00       		.byte	0
+ 966 009d 3F       		.uleb128 0x3f
+ 967 009e 19       		.uleb128 0x19
+ 968 009f 03       		.uleb128 0x3
+ 969 00a0 0E       		.uleb128 0xe
+ 970 00a1 3A       		.uleb128 0x3a
+ 971 00a2 0B       		.uleb128 0xb
+ 972 00a3 3B       		.uleb128 0x3b
+ 973 00a4 0B       		.uleb128 0xb
+ 974 00a5 27       		.uleb128 0x27
+ 975 00a6 19       		.uleb128 0x19
+ 976 00a7 11       		.uleb128 0x11
+ 977 00a8 01       		.uleb128 0x1
+ 978 00a9 12       		.uleb128 0x12
+ 979 00aa 06       		.uleb128 0x6
+ 980 00ab 40       		.uleb128 0x40
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 24
+
+
+ 981 00ac 18       		.uleb128 0x18
+ 982 00ad 9742     		.uleb128 0x2117
+ 983 00af 19       		.uleb128 0x19
+ 984 00b0 00       		.byte	0
+ 985 00b1 00       		.byte	0
+ 986 00b2 0D       		.uleb128 0xd
+ 987 00b3 2E       		.uleb128 0x2e
+ 988 00b4 01       		.byte	0x1
+ 989 00b5 3F       		.uleb128 0x3f
+ 990 00b6 19       		.uleb128 0x19
+ 991 00b7 03       		.uleb128 0x3
+ 992 00b8 0E       		.uleb128 0xe
+ 993 00b9 3A       		.uleb128 0x3a
+ 994 00ba 0B       		.uleb128 0xb
+ 995 00bb 3B       		.uleb128 0x3b
+ 996 00bc 0B       		.uleb128 0xb
+ 997 00bd 27       		.uleb128 0x27
+ 998 00be 19       		.uleb128 0x19
+ 999 00bf 49       		.uleb128 0x49
+ 1000 00c0 13       		.uleb128 0x13
+ 1001 00c1 11       		.uleb128 0x11
+ 1002 00c2 01       		.uleb128 0x1
+ 1003 00c3 12       		.uleb128 0x12
+ 1004 00c4 06       		.uleb128 0x6
+ 1005 00c5 40       		.uleb128 0x40
+ 1006 00c6 18       		.uleb128 0x18
+ 1007 00c7 9742     		.uleb128 0x2117
+ 1008 00c9 19       		.uleb128 0x19
+ 1009 00ca 01       		.uleb128 0x1
+ 1010 00cb 13       		.uleb128 0x13
+ 1011 00cc 00       		.byte	0
+ 1012 00cd 00       		.byte	0
+ 1013 00ce 0E       		.uleb128 0xe
+ 1014 00cf 05       		.uleb128 0x5
+ 1015 00d0 00       		.byte	0
+ 1016 00d1 03       		.uleb128 0x3
+ 1017 00d2 0E       		.uleb128 0xe
+ 1018 00d3 3A       		.uleb128 0x3a
+ 1019 00d4 0B       		.uleb128 0xb
+ 1020 00d5 3B       		.uleb128 0x3b
+ 1021 00d6 0B       		.uleb128 0xb
+ 1022 00d7 49       		.uleb128 0x49
+ 1023 00d8 13       		.uleb128 0x13
+ 1024 00d9 02       		.uleb128 0x2
+ 1025 00da 17       		.uleb128 0x17
+ 1026 00db 00       		.byte	0
+ 1027 00dc 00       		.byte	0
+ 1028 00dd 0F       		.uleb128 0xf
+ 1029 00de 34       		.uleb128 0x34
+ 1030 00df 00       		.byte	0
+ 1031 00e0 03       		.uleb128 0x3
+ 1032 00e1 0E       		.uleb128 0xe
+ 1033 00e2 3A       		.uleb128 0x3a
+ 1034 00e3 0B       		.uleb128 0xb
+ 1035 00e4 3B       		.uleb128 0x3b
+ 1036 00e5 0B       		.uleb128 0xb
+ 1037 00e6 49       		.uleb128 0x49
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 25
+
+
+ 1038 00e7 13       		.uleb128 0x13
+ 1039 00e8 02       		.uleb128 0x2
+ 1040 00e9 17       		.uleb128 0x17
+ 1041 00ea 00       		.byte	0
+ 1042 00eb 00       		.byte	0
+ 1043 00ec 10       		.uleb128 0x10
+ 1044 00ed 898201   		.uleb128 0x4109
+ 1045 00f0 01       		.byte	0x1
+ 1046 00f1 11       		.uleb128 0x11
+ 1047 00f2 01       		.uleb128 0x1
+ 1048 00f3 31       		.uleb128 0x31
+ 1049 00f4 13       		.uleb128 0x13
+ 1050 00f5 00       		.byte	0
+ 1051 00f6 00       		.byte	0
+ 1052 00f7 11       		.uleb128 0x11
+ 1053 00f8 0F       		.uleb128 0xf
+ 1054 00f9 00       		.byte	0
+ 1055 00fa 0B       		.uleb128 0xb
+ 1056 00fb 0B       		.uleb128 0xb
+ 1057 00fc 49       		.uleb128 0x49
+ 1058 00fd 13       		.uleb128 0x13
+ 1059 00fe 00       		.byte	0
+ 1060 00ff 00       		.byte	0
+ 1061 0100 12       		.uleb128 0x12
+ 1062 0101 26       		.uleb128 0x26
+ 1063 0102 00       		.byte	0
+ 1064 0103 49       		.uleb128 0x49
+ 1065 0104 13       		.uleb128 0x13
+ 1066 0105 00       		.byte	0
+ 1067 0106 00       		.byte	0
+ 1068 0107 13       		.uleb128 0x13
+ 1069 0108 01       		.uleb128 0x1
+ 1070 0109 01       		.byte	0x1
+ 1071 010a 49       		.uleb128 0x49
+ 1072 010b 13       		.uleb128 0x13
+ 1073 010c 01       		.uleb128 0x1
+ 1074 010d 13       		.uleb128 0x13
+ 1075 010e 00       		.byte	0
+ 1076 010f 00       		.byte	0
+ 1077 0110 14       		.uleb128 0x14
+ 1078 0111 21       		.uleb128 0x21
+ 1079 0112 00       		.byte	0
+ 1080 0113 49       		.uleb128 0x49
+ 1081 0114 13       		.uleb128 0x13
+ 1082 0115 2F       		.uleb128 0x2f
+ 1083 0116 0B       		.uleb128 0xb
+ 1084 0117 00       		.byte	0
+ 1085 0118 00       		.byte	0
+ 1086 0119 15       		.uleb128 0x15
+ 1087 011a 34       		.uleb128 0x34
+ 1088 011b 00       		.byte	0
+ 1089 011c 03       		.uleb128 0x3
+ 1090 011d 0E       		.uleb128 0xe
+ 1091 011e 3A       		.uleb128 0x3a
+ 1092 011f 0B       		.uleb128 0xb
+ 1093 0120 3B       		.uleb128 0x3b
+ 1094 0121 0B       		.uleb128 0xb
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 26
+
+
+ 1095 0122 49       		.uleb128 0x49
+ 1096 0123 13       		.uleb128 0x13
+ 1097 0124 02       		.uleb128 0x2
+ 1098 0125 18       		.uleb128 0x18
+ 1099 0126 00       		.byte	0
+ 1100 0127 00       		.byte	0
+ 1101 0128 16       		.uleb128 0x16
+ 1102 0129 34       		.uleb128 0x34
+ 1103 012a 00       		.byte	0
+ 1104 012b 03       		.uleb128 0x3
+ 1105 012c 0E       		.uleb128 0xe
+ 1106 012d 3A       		.uleb128 0x3a
+ 1107 012e 0B       		.uleb128 0xb
+ 1108 012f 3B       		.uleb128 0x3b
+ 1109 0130 0B       		.uleb128 0xb
+ 1110 0131 49       		.uleb128 0x49
+ 1111 0132 13       		.uleb128 0x13
+ 1112 0133 3F       		.uleb128 0x3f
+ 1113 0134 19       		.uleb128 0x19
+ 1114 0135 3C       		.uleb128 0x3c
+ 1115 0136 19       		.uleb128 0x19
+ 1116 0137 00       		.byte	0
+ 1117 0138 00       		.byte	0
+ 1118 0139 17       		.uleb128 0x17
+ 1119 013a 2E       		.uleb128 0x2e
+ 1120 013b 00       		.byte	0
+ 1121 013c 3F       		.uleb128 0x3f
+ 1122 013d 19       		.uleb128 0x19
+ 1123 013e 3C       		.uleb128 0x3c
+ 1124 013f 19       		.uleb128 0x19
+ 1125 0140 6E       		.uleb128 0x6e
+ 1126 0141 0E       		.uleb128 0xe
+ 1127 0142 03       		.uleb128 0x3
+ 1128 0143 0E       		.uleb128 0xe
+ 1129 0144 3A       		.uleb128 0x3a
+ 1130 0145 0B       		.uleb128 0xb
+ 1131 0146 3B       		.uleb128 0x3b
+ 1132 0147 05       		.uleb128 0x5
+ 1133 0148 00       		.byte	0
+ 1134 0149 00       		.byte	0
+ 1135 014a 18       		.uleb128 0x18
+ 1136 014b 2E       		.uleb128 0x2e
+ 1137 014c 00       		.byte	0
+ 1138 014d 3F       		.uleb128 0x3f
+ 1139 014e 19       		.uleb128 0x19
+ 1140 014f 3C       		.uleb128 0x3c
+ 1141 0150 19       		.uleb128 0x19
+ 1142 0151 6E       		.uleb128 0x6e
+ 1143 0152 0E       		.uleb128 0xe
+ 1144 0153 03       		.uleb128 0x3
+ 1145 0154 0E       		.uleb128 0xe
+ 1146 0155 3A       		.uleb128 0x3a
+ 1147 0156 0B       		.uleb128 0xb
+ 1148 0157 3B       		.uleb128 0x3b
+ 1149 0158 0B       		.uleb128 0xb
+ 1150 0159 00       		.byte	0
+ 1151 015a 00       		.byte	0
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 27
+
+
+ 1152 015b 19       		.uleb128 0x19
+ 1153 015c 2E       		.uleb128 0x2e
+ 1154 015d 00       		.byte	0
+ 1155 015e 3F       		.uleb128 0x3f
+ 1156 015f 19       		.uleb128 0x19
+ 1157 0160 3C       		.uleb128 0x3c
+ 1158 0161 19       		.uleb128 0x19
+ 1159 0162 6E       		.uleb128 0x6e
+ 1160 0163 0E       		.uleb128 0xe
+ 1161 0164 03       		.uleb128 0x3
+ 1162 0165 0E       		.uleb128 0xe
+ 1163 0166 00       		.byte	0
+ 1164 0167 00       		.byte	0
+ 1165 0168 00       		.byte	0
+ 1166              		.section	.debug_loc,"",%progbits
+ 1167              	.Ldebug_loc0:
+ 1168              	.LLST0:
+ 1169 0000 00000000 		.4byte	.LVL5
+ 1170 0004 0A000000 		.4byte	.LVL6
+ 1171 0008 0100     		.2byte	0x1
+ 1172 000a 50       		.byte	0x50
+ 1173 000b 0A000000 		.4byte	.LVL6
+ 1174 000f 58000000 		.4byte	.LVL14
+ 1175 0013 0100     		.2byte	0x1
+ 1176 0015 56       		.byte	0x56
+ 1177 0016 58000000 		.4byte	.LVL14
+ 1178 001a 68000000 		.4byte	.LFE3
+ 1179 001e 0400     		.2byte	0x4
+ 1180 0020 F3       		.byte	0xf3
+ 1181 0021 01       		.uleb128 0x1
+ 1182 0022 50       		.byte	0x50
+ 1183 0023 9F       		.byte	0x9f
+ 1184 0024 00000000 		.4byte	0
+ 1185 0028 00000000 		.4byte	0
+ 1186              	.LLST1:
+ 1187 002c 00000000 		.4byte	.LVL5
+ 1188 0030 18000000 		.4byte	.LVL8
+ 1189 0034 0100     		.2byte	0x1
+ 1190 0036 51       		.byte	0x51
+ 1191 0037 18000000 		.4byte	.LVL8
+ 1192 003b 68000000 		.4byte	.LFE3
+ 1193 003f 0400     		.2byte	0x4
+ 1194 0041 F3       		.byte	0xf3
+ 1195 0042 01       		.uleb128 0x1
+ 1196 0043 51       		.byte	0x51
+ 1197 0044 9F       		.byte	0x9f
+ 1198 0045 00000000 		.4byte	0
+ 1199 0049 00000000 		.4byte	0
+ 1200              	.LLST2:
+ 1201 004d 00000000 		.4byte	.LVL5
+ 1202 0051 18000000 		.4byte	.LVL8
+ 1203 0055 0100     		.2byte	0x1
+ 1204 0057 52       		.byte	0x52
+ 1205 0058 18000000 		.4byte	.LVL8
+ 1206 005c 68000000 		.4byte	.LFE3
+ 1207 0060 0200     		.2byte	0x2
+ 1208 0062 91       		.byte	0x91
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 28
+
+
+ 1209 0063 64       		.sleb128 -28
+ 1210 0064 00000000 		.4byte	0
+ 1211 0068 00000000 		.4byte	0
+ 1212              	.LLST3:
+ 1213 006c 00000000 		.4byte	.LVL5
+ 1214 0070 18000000 		.4byte	.LVL8
+ 1215 0074 0100     		.2byte	0x1
+ 1216 0076 53       		.byte	0x53
+ 1217 0077 18000000 		.4byte	.LVL8
+ 1218 007b 68000000 		.4byte	.LFE3
+ 1219 007f 0400     		.2byte	0x4
+ 1220 0081 F3       		.byte	0xf3
+ 1221 0082 01       		.uleb128 0x1
+ 1222 0083 53       		.byte	0x53
+ 1223 0084 9F       		.byte	0x9f
+ 1224 0085 00000000 		.4byte	0
+ 1225 0089 00000000 		.4byte	0
+ 1226              	.LLST4:
+ 1227 008d 00000000 		.4byte	.LVL5
+ 1228 0091 12000000 		.4byte	.LVL7
+ 1229 0095 0200     		.2byte	0x2
+ 1230 0097 31       		.byte	0x31
+ 1231 0098 9F       		.byte	0x9f
+ 1232 0099 12000000 		.4byte	.LVL7
+ 1233 009d 48000000 		.4byte	.LVL9
+ 1234 00a1 0200     		.2byte	0x2
+ 1235 00a3 40       		.byte	0x40
+ 1236 00a4 9F       		.byte	0x9f
+ 1237 00a5 48000000 		.4byte	.LVL9
+ 1238 00a9 4C000000 		.4byte	.LVL10
+ 1239 00ad 0200     		.2byte	0x2
+ 1240 00af 30       		.byte	0x30
+ 1241 00b0 9F       		.byte	0x9f
+ 1242 00b1 4C000000 		.4byte	.LVL10
+ 1243 00b5 58000000 		.4byte	.LVL13
+ 1244 00b9 0200     		.2byte	0x2
+ 1245 00bb 40       		.byte	0x40
+ 1246 00bc 9F       		.byte	0x9f
+ 1247 00bd 58000000 		.4byte	.LVL13
+ 1248 00c1 68000000 		.4byte	.LFE3
+ 1249 00c5 0100     		.2byte	0x1
+ 1250 00c7 50       		.byte	0x50
+ 1251 00c8 00000000 		.4byte	0
+ 1252 00cc 00000000 		.4byte	0
+ 1253              	.LLST5:
+ 1254 00d0 18000000 		.4byte	.LVL8
+ 1255 00d4 58000000 		.4byte	.LVL13
+ 1256 00d8 0100     		.2byte	0x1
+ 1257 00da 54       		.byte	0x54
+ 1258 00db 00000000 		.4byte	0
+ 1259 00df 00000000 		.4byte	0
+ 1260              	.LLST6:
+ 1261 00e3 00000000 		.4byte	.LVL15
+ 1262 00e7 1C000000 		.4byte	.LVL19
+ 1263 00eb 0100     		.2byte	0x1
+ 1264 00ed 50       		.byte	0x50
+ 1265 00ee 1C000000 		.4byte	.LVL19
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 29
+
+
+ 1266 00f2 1F000000 		.4byte	.LVL20-1
+ 1267 00f6 0100     		.2byte	0x1
+ 1268 00f8 51       		.byte	0x51
+ 1269 00f9 1F000000 		.4byte	.LVL20-1
+ 1270 00fd 2C000000 		.4byte	.LFE4
+ 1271 0101 0400     		.2byte	0x4
+ 1272 0103 F3       		.byte	0xf3
+ 1273 0104 01       		.uleb128 0x1
+ 1274 0105 50       		.byte	0x50
+ 1275 0106 9F       		.byte	0x9f
+ 1276 0107 00000000 		.4byte	0
+ 1277 010b 00000000 		.4byte	0
+ 1278              	.LLST7:
+ 1279 010f 00000000 		.4byte	.LVL15
+ 1280 0113 1A000000 		.4byte	.LVL18
+ 1281 0117 0100     		.2byte	0x1
+ 1282 0119 51       		.byte	0x51
+ 1283 011a 1A000000 		.4byte	.LVL18
+ 1284 011e 1F000000 		.4byte	.LVL20-1
+ 1285 0122 0300     		.2byte	0x3
+ 1286 0124 F3       		.byte	0xf3
+ 1287 0125 01       		.uleb128 0x1
+ 1288 0126 52       		.byte	0x52
+ 1289 0127 1F000000 		.4byte	.LVL20-1
+ 1290 012b 2C000000 		.4byte	.LFE4
+ 1291 012f 0400     		.2byte	0x4
+ 1292 0131 F3       		.byte	0xf3
+ 1293 0132 01       		.uleb128 0x1
+ 1294 0133 51       		.byte	0x51
+ 1295 0134 9F       		.byte	0x9f
+ 1296 0135 00000000 		.4byte	0
+ 1297 0139 00000000 		.4byte	0
+ 1298              	.LLST8:
+ 1299 013d 00000000 		.4byte	.LVL15
+ 1300 0141 18000000 		.4byte	.LVL17
+ 1301 0145 0100     		.2byte	0x1
+ 1302 0147 52       		.byte	0x52
+ 1303 0148 18000000 		.4byte	.LVL17
+ 1304 014c 2C000000 		.4byte	.LFE4
+ 1305 0150 0400     		.2byte	0x4
+ 1306 0152 F3       		.byte	0xf3
+ 1307 0153 01       		.uleb128 0x1
+ 1308 0154 52       		.byte	0x52
+ 1309 0155 9F       		.byte	0x9f
+ 1310 0156 00000000 		.4byte	0
+ 1311 015a 00000000 		.4byte	0
+ 1312              	.LLST9:
+ 1313 015e 00000000 		.4byte	.LVL15
+ 1314 0162 04000000 		.4byte	.LVL16
+ 1315 0166 0100     		.2byte	0x1
+ 1316 0168 53       		.byte	0x53
+ 1317 0169 04000000 		.4byte	.LVL16
+ 1318 016d 2C000000 		.4byte	.LFE4
+ 1319 0171 0400     		.2byte	0x4
+ 1320 0173 F3       		.byte	0xf3
+ 1321 0174 01       		.uleb128 0x1
+ 1322 0175 53       		.byte	0x53
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 30
+
+
+ 1323 0176 9F       		.byte	0x9f
+ 1324 0177 00000000 		.4byte	0
+ 1325 017b 00000000 		.4byte	0
+ 1326              	.LLST10:
+ 1327 017f 00000000 		.4byte	.LVL15
+ 1328 0183 24000000 		.4byte	.LVL21
+ 1329 0187 0200     		.2byte	0x2
+ 1330 0189 31       		.byte	0x31
+ 1331 018a 9F       		.byte	0x9f
+ 1332 018b 24000000 		.4byte	.LVL21
+ 1333 018f 2C000000 		.4byte	.LFE4
+ 1334 0193 0100     		.2byte	0x1
+ 1335 0195 53       		.byte	0x53
+ 1336 0196 00000000 		.4byte	0
+ 1337 019a 00000000 		.4byte	0
+ 1338              		.section	.debug_aranges,"",%progbits
+ 1339 0000 44000000 		.4byte	0x44
+ 1340 0004 0200     		.2byte	0x2
+ 1341 0006 00000000 		.4byte	.Ldebug_info0
+ 1342 000a 04       		.byte	0x4
+ 1343 000b 00       		.byte	0
+ 1344 000c 0000     		.2byte	0
+ 1345 000e 0000     		.2byte	0
+ 1346 0010 00000000 		.4byte	.LFB5
+ 1347 0014 4C000000 		.4byte	.LFE5-.LFB5
+ 1348 0018 00000000 		.4byte	.LFB0
+ 1349 001c 30000000 		.4byte	.LFE0-.LFB0
+ 1350 0020 00000000 		.4byte	.LFB1
+ 1351 0024 08000000 		.4byte	.LFE1-.LFB1
+ 1352 0028 00000000 		.4byte	.LFB2
+ 1353 002c 24000000 		.4byte	.LFE2-.LFB2
+ 1354 0030 00000000 		.4byte	.LFB3
+ 1355 0034 68000000 		.4byte	.LFE3-.LFB3
+ 1356 0038 00000000 		.4byte	.LFB4
+ 1357 003c 2C000000 		.4byte	.LFE4-.LFB4
+ 1358 0040 00000000 		.4byte	0
+ 1359 0044 00000000 		.4byte	0
+ 1360              		.section	.debug_ranges,"",%progbits
+ 1361              	.Ldebug_ranges0:
+ 1362 0000 00000000 		.4byte	.LFB5
+ 1363 0004 4C000000 		.4byte	.LFE5
+ 1364 0008 00000000 		.4byte	.LFB0
+ 1365 000c 30000000 		.4byte	.LFE0
+ 1366 0010 00000000 		.4byte	.LFB1
+ 1367 0014 08000000 		.4byte	.LFE1
+ 1368 0018 00000000 		.4byte	.LFB2
+ 1369 001c 24000000 		.4byte	.LFE2
+ 1370 0020 00000000 		.4byte	.LFB3
+ 1371 0024 68000000 		.4byte	.LFE3
+ 1372 0028 00000000 		.4byte	.LFB4
+ 1373 002c 2C000000 		.4byte	.LFE4
+ 1374 0030 00000000 		.4byte	0
+ 1375 0034 00000000 		.4byte	0
+ 1376              		.section	.debug_line,"",%progbits
+ 1377              	.Ldebug_line0:
+ 1378 0000 2C010000 		.section	.debug_str,"MS",%progbits,1
+ 1378      02007B00 
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 31
+
+
+ 1378      00000201 
+ 1378      FB0E0D00 
+ 1378      01010101 
+ 1379              	.LASF30:
+ 1380 0000 4932435F 		.ascii	"I2C_slWriteBuf\000"
+ 1380      736C5772 
+ 1380      69746542 
+ 1380      756600
+ 1381              	.LASF44:
+ 1382 000f 443A5C68 		.ascii	"D:\\harshita\\final_files - D\\psoc\\4_1_new\\I2C_B"
+ 1382      61727368 
+ 1382      6974615C 
+ 1382      66696E61 
+ 1382      6C5F6669 
+ 1383 003d 6F6F746C 		.ascii	"ootloader_Red.cydsn\000"
+ 1383      6F616465 
+ 1383      725F5265 
+ 1383      642E6379 
+ 1383      64736E00 
+ 1384              	.LASF16:
+ 1385 0051 72656733 		.ascii	"reg32\000"
+ 1385      3200
+ 1386              	.LASF26:
+ 1387 0057 74696D65 		.ascii	"timeoutMs\000"
+ 1387      6F75744D 
+ 1387      7300
+ 1388              	.LASF20:
+ 1389 0061 4932435F 		.ascii	"I2C_I2CCyBtldrCommStop\000"
+ 1389      49324343 
+ 1389      7942746C 
+ 1389      6472436F 
+ 1389      6D6D5374 
+ 1390              	.LASF23:
+ 1391 0078 636F756E 		.ascii	"count\000"
+ 1391      7400
+ 1392              	.LASF43:
+ 1393 007e 47656E65 		.ascii	"Generated_Source\\PSoC4\\I2C_I2C_BOOT.c\000"
+ 1393      72617465 
+ 1393      645F536F 
+ 1393      75726365 
+ 1393      5C50536F 
+ 1394              	.LASF3:
+ 1395 00a4 73686F72 		.ascii	"short unsigned int\000"
+ 1395      7420756E 
+ 1395      7369676E 
+ 1395      65642069 
+ 1395      6E7400
+ 1396              	.LASF27:
+ 1397 00b7 4932435F 		.ascii	"I2C_I2CCyBtldrCommRead\000"
+ 1397      49324343 
+ 1397      7942746C 
+ 1397      6472436F 
+ 1397      6D6D5265 
+ 1398              	.LASF45:
+ 1399 00ce 4932435F 		.ascii	"I2C_I2CResposeInsert\000"
+ 1399      49324352 
+ 1399      6573706F 
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 32
+
+
+ 1399      7365496E 
+ 1399      73657274 
+ 1400              	.LASF25:
+ 1401 00e3 73746174 		.ascii	"status\000"
+ 1401      757300
+ 1402              	.LASF39:
+ 1403 00ea 4932435F 		.ascii	"I2C_Start\000"
+ 1403      53746172 
+ 1403      7400
+ 1404              	.LASF21:
+ 1405 00f4 70446174 		.ascii	"pData\000"
+ 1405      6100
+ 1406              	.LASF12:
+ 1407 00fa 666C6F61 		.ascii	"float\000"
+ 1407      7400
+ 1408              	.LASF32:
+ 1409 0100 4932435F 		.ascii	"I2C_slStatus\000"
+ 1409      736C5374 
+ 1409      61747573 
+ 1409      00
+ 1410              	.LASF22:
+ 1411 010d 73697A65 		.ascii	"size\000"
+ 1411      00
+ 1412              	.LASF46:
+ 1413 0112 4932435F 		.ascii	"I2C_I2CCyBtldrCommReset\000"
+ 1413      49324343 
+ 1413      7942746C 
+ 1413      6472436F 
+ 1413      6D6D5265 
+ 1414              	.LASF5:
+ 1415 012a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1415      20756E73 
+ 1415      69676E65 
+ 1415      6420696E 
+ 1415      7400
+ 1416              	.LASF9:
+ 1417 013c 75696E74 		.ascii	"uint8\000"
+ 1417      3800
+ 1418              	.LASF34:
+ 1419 0142 4932435F 		.ascii	"I2C_slRdBufSize\000"
+ 1419      736C5264 
+ 1419      42756653 
+ 1419      697A6500 
+ 1420              	.LASF1:
+ 1421 0152 756E7369 		.ascii	"unsigned char\000"
+ 1421      676E6564 
+ 1421      20636861 
+ 1421      7200
+ 1422              	.LASF13:
+ 1423 0160 646F7562 		.ascii	"double\000"
+ 1423      6C6500
+ 1424              	.LASF33:
+ 1425 0167 4932435F 		.ascii	"I2C_slWrBufIndex\000"
+ 1425      736C5772 
+ 1425      42756649 
+ 1425      6E646578 
+ 1425      00
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 33
+
+
+ 1426              	.LASF38:
+ 1427 0178 4932435F 		.ascii	"I2C_SetCustomInterruptHandler\000"
+ 1427      53657443 
+ 1427      7573746F 
+ 1427      6D496E74 
+ 1427      65727275 
+ 1428              	.LASF10:
+ 1429 0196 75696E74 		.ascii	"uint16\000"
+ 1429      313600
+ 1430              	.LASF15:
+ 1431 019d 63797374 		.ascii	"cystatus\000"
+ 1431      61747573 
+ 1431      00
+ 1432              	.LASF11:
+ 1433 01a6 75696E74 		.ascii	"uint32\000"
+ 1433      333200
+ 1434              	.LASF8:
+ 1435 01ad 756E7369 		.ascii	"unsigned int\000"
+ 1435      676E6564 
+ 1435      20696E74 
+ 1435      00
+ 1436              	.LASF7:
+ 1437 01ba 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1437      206C6F6E 
+ 1437      6720756E 
+ 1437      7369676E 
+ 1437      65642069 
+ 1438              	.LASF24:
+ 1439 01d1 74696D65 		.ascii	"timeOut\000"
+ 1439      4F757400 
+ 1440              	.LASF36:
+ 1441 01d9 4932435F 		.ascii	"I2C_I2CSlaveInitWriteBuf\000"
+ 1441      49324353 
+ 1441      6C617665 
+ 1441      496E6974 
+ 1441      57726974 
+ 1442              	.LASF17:
+ 1443 01f2 6C6F6E67 		.ascii	"long double\000"
+ 1443      20646F75 
+ 1443      626C6500 
+ 1444              	.LASF18:
+ 1445 01fe 73697A65 		.ascii	"sizetype\000"
+ 1445      74797065 
+ 1445      00
+ 1446              	.LASF19:
+ 1447 0207 4932435F 		.ascii	"I2C_I2CCyBtldrCommStart\000"
+ 1447      49324343 
+ 1447      7942746C 
+ 1447      6472436F 
+ 1447      6D6D5374 
+ 1448              	.LASF6:
+ 1449 021f 6C6F6E67 		.ascii	"long long int\000"
+ 1449      206C6F6E 
+ 1449      6720696E 
+ 1449      7400
+ 1450              	.LASF29:
+ 1451 022d 4932435F 		.ascii	"I2C_slReadBuf\000"
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 34
+
+
+ 1451      736C5265 
+ 1451      61644275 
+ 1451      6600
+ 1452              	.LASF47:
+ 1453 023b 6D656D63 		.ascii	"memcpy\000"
+ 1453      707900
+ 1454              	.LASF37:
+ 1455 0242 4932435F 		.ascii	"I2C_I2CSlaveInitReadBuf\000"
+ 1455      49324353 
+ 1455      6C617665 
+ 1455      496E6974 
+ 1455      52656164 
+ 1456              	.LASF2:
+ 1457 025a 73686F72 		.ascii	"short int\000"
+ 1457      7420696E 
+ 1457      7400
+ 1458              	.LASF35:
+ 1459 0264 4932435F 		.ascii	"I2C_slRdBufIndex\000"
+ 1459      736C5264 
+ 1459      42756649 
+ 1459      6E646578 
+ 1459      00
+ 1460              	.LASF41:
+ 1461 0275 43794465 		.ascii	"CyDelay\000"
+ 1461      6C617900 
+ 1462              	.LASF4:
+ 1463 027d 6C6F6E67 		.ascii	"long int\000"
+ 1463      20696E74 
+ 1463      00
+ 1464              	.LASF14:
+ 1465 0286 63686172 		.ascii	"char\000"
+ 1465      00
+ 1466              	.LASF31:
+ 1467 028b 4932435F 		.ascii	"I2C_applyBuffer\000"
+ 1467      6170706C 
+ 1467      79427566 
+ 1467      66657200 
+ 1468              	.LASF40:
+ 1469 029b 4932435F 		.ascii	"I2C_Stop\000"
+ 1469      53746F70 
+ 1469      00
+ 1470              	.LASF0:
+ 1471 02a4 7369676E 		.ascii	"signed char\000"
+ 1471      65642063 
+ 1471      68617200 
+ 1472              	.LASF42:
+ 1473 02b0 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1473      43313120 
+ 1473      352E342E 
+ 1473      31203230 
+ 1473      31363036 
+ 1474 02e3 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m0 -mthumb -g -O"
+ 1474      20726576 
+ 1474      6973696F 
+ 1474      6E203233 
+ 1474      37373135 
+ 1475 0316 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ARM GAS  C:\Users\lenovo\AppData\Local\Temp\ccyedZWb.s 			page 35
+
+
+ 1475      66756E63 
+ 1475      74696F6E 
+ 1475      2D736563 
+ 1475      74696F6E 
+ 1476              	.LASF28:
+ 1477 033e 4932435F 		.ascii	"I2C_I2CCyBtldrCommWrite\000"
+ 1477      49324343 
+ 1477      7942746C 
+ 1477      6472436F 
+ 1477      6D6D5772 
+ 1478              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

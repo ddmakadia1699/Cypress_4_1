@@ -1,0 +1,11 @@
+# I2C_Bootloader_Red
+# 2020-09-07 05:10:22Z
+
+# IO_2@[IOP=(3)][IoId=(2)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 2
+# IO_3@[IOP=(3)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 3 3
+set_location "ClockGenBlock" m0s8clockgenblockcell -1 -1 0
+set_io "\I2C:sda(0)\" iocell 3 1
+set_io "\I2C:scl(0)\" iocell 3 0
+set_io "Pin_LED(0)" iocell 1 7

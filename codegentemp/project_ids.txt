@@ -1,0 +1,6 @@
+D:\SMD Innovation\4_1\Design01.cydsn\Design01.cyprj|cf9246a1-96db-426e-9afb-8e613e6d488f
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|9029e446-35bf-47d4-85e9-12393605d17c
+C:\Users\Mayur\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|f4d49eae-56de-4bb7-b12e-7ecc122fd314
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|e3577c59-8053-4fd7-b20c-17917ae4efb6
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|41a4a0e8-3e72-499e-9132-c466a4283140
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|4d8b558a-bc5f-4751-9a47-cee9149d0291

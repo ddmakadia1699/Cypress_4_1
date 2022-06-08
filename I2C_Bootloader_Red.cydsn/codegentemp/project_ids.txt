@@ -1,0 +1,7 @@
+D:\DD\Final PSCO 10-08-2020\4_1_new\Design01.cydsn\I2C_Bootloader_Red.cydsn\I2C_Bootloader_Red.cyprj|38bc4c42-794f-4960-b82b-332d4e34bd9b
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|3e36249b-4a0e-43da-9aa1-57c36acdd4c3
+C:\Users\lenovo\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|d31d264d-eb42-4d42-a7cc-9284daab4eb4
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|05bef75e-ab72-4612-a10b-98143acd7a43
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|6e1b085a-79ee-4a22-a321-e9e3f09c08bb
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|23d9e3a1-f240-4cf1-a7a3-207f0bbe3000
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|d60c245d-aa73-412e-a4dd-7688fa2b55be
